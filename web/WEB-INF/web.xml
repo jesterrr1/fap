@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <!--Header-->
+    <!--rectangle na sumasakop sa buong taas na part which is color mejo black same lang sa active learning na site-->
+    <!--Logo ng active learning sa bandang left-->
+    <!--add some elements pa pero not much para simple lang-->
+    <!--Footer-->
+    <!--rectangle na sumasakop sa buong taas na part which is color mejo black same lang sa active learning na site-->
+    <!--Logo ng active learning sa bandang left-->
+    <!--add some elements pa pero not much para simple lang-->
+    <!--Key-->
+    <context-param>
+        <param-name>key</param-name>
+        <param-value>unpredictability</param-value>
+    </context-param>
+    <!--Cipher-->
+    <context-param>
+        <param-name>cipher</param-name>
+        <param-value>AES/ECB/PKCS5Padding</param-value>
+    </context-param>
+    
+    <!--Login-Servlet-->
+    <servlet>
+        <servlet-name>Login</servlet-name>
+        <servlet-class>test.Login</servlet-class>
+        <!--DBName-->
+        <init-param>
+            <description>this is the Database Name</description>
+            <param-name>DBname</param-name>
+            <param-value>LoginDB</param-value>
+        </init-param>
+        <!--DBusername-->
+        <init-param>
+            <description>this is the Database username</description>
+            <param-name>DBusername</param-name>
+            <param-value>app</param-value>
+        </init-param>
+        <!--DBpassword-->
+        <init-param>
+            <description>this is the Database password</description>
+            <param-name>DBpassword</param-name>
+            <param-value>app</param-value>
+        </init-param>
+        <!--DBdriver-->
+        <init-param>
+            <description>this is the Database Driver</description>
+            <param-name>DBdriver</param-name>
+            <param-value>org.apache.derby.jdbc.ClientDriver</param-value>
+        </init-param>
+        <!--DBURL-->
+        <init-param>
+            <description>this is the Database URL</description>
+            <param-name>DBurl</param-name>
+            <param-value>jdbc:derby://localhost:1527/LoginDB</param-value>
+        </init-param>
+        <!--login username-->
+        <init-param>
+            <description>this is the login username</description>
+            <param-name>username</param-name>
+            <param-value>loginUsername</param-value>
+        </init-param>
+        <!--login password-->
+        <init-param>
+            <description>this is the login password</description>
+            <param-name>password</param-name>
+            <param-value>loginPassword</param-value>
+        </init-param>
+    </servlet>
+    <!--Logout Servlet-->
+    <servlet>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>test.Logout</servlet-class>
+    </servlet>
+    <!--Captcha Servlet-->
+    <servlet>
+        <servlet-name>Captcha</servlet-name>
+        <servlet-class>test.Captcha</servlet-class>
+        <init-param>
+            <param-name>captchaLength</param-name>
+            <param-value>4</param-value>
+        </init-param>
+    </servlet>
+    <!--Servlet Mapping -->
+    <servlet-mapping>
+        <servlet-name>Login</servlet-name>
+        <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/Logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Captcha</servlet-name>
+        <url-pattern>/Captcha</url-pattern>
+    </servlet-mapping>
+    <!--Custom error pages-->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error_4.jsp</location>
+    </error-page>
+    <session-config>
+        <session-timeout>
+            5
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+</web-app>
