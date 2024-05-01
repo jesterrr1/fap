@@ -37,7 +37,7 @@ body {
 #box{
     width: 100px;
     height: 100px;
-    background: #fff;
+    background: #ffcc00; /*color for the rolling animation*/
     animation: animate .5s linear infinite;
     position: absolute;
     top: 0;
