@@ -22,7 +22,7 @@ public class Login extends HttpServlet {
     private String DBusername;      //app
     private String DBpassword;      //app
     private String DBdriver;        //org.apache.derby.jdbc.ClientDriver
-    private String DBurl;           //jdbc:derby://localhost:1527/LoginDB
+    private String DBurl;           
     private String keyString;
     private SecretKeySpec keySpec;
     private Cipher cipher;
@@ -32,7 +32,10 @@ public class Login extends HttpServlet {
         super.init(config);
         
         //Load DB credentials
-        //DBurl = getServletConfig().getInitParameter("")
+        DBurl = getServletConfig().getInitParameter("DBurl");                   //jdbc:derby://localhost:1527/LoginDB
+        DBusername = getServletConfig().getInitParameter("DBusername");         //app
+        DBpassword = getServletConfig().getInitParameter("DBpassword");         //app
+        keyString = getServletContext().getInitParameter("key");                //unpredictability(16-bit string)
     }
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
