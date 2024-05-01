@@ -1,15 +1,10 @@
-<%-- 
-    Document   : error_3
-    Created on : 04 30, 24, 11:39:31 PM
-    Author     : Patrick
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Error 3</title>
+        <!--username and password incorrect but not blank-->
     </head>
     <body>
         <h1>Hello World!</h1>
