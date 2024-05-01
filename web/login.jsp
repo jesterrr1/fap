@@ -9,7 +9,7 @@
     <body>
         <div class="container">
             <div class="login-box">
-                <h2>Login</h2>
+                <h2>Welcome</h2>
                 <form action="#">
                     <div class="input-box">
                         <input type="text" required>
