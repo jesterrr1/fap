@@ -19,8 +19,8 @@ public class Login extends HttpServlet {
 
     //Declaration of variables from DD
     private String DBname;          //LoginDB
-    private String DBusername;      //app
-    private String DBpassword;      //app
+    private String DBusername;      
+    private String DBpassword;      
     private String DBdriver;        //org.apache.derby.jdbc.ClientDriver
     private String DBurl;           
     private String keyString;
@@ -36,6 +36,27 @@ public class Login extends HttpServlet {
         DBusername = getServletConfig().getInitParameter("DBusername");         //app
         DBpassword = getServletConfig().getInitParameter("DBpassword");         //app
         keyString = getServletContext().getInitParameter("key");                //unpredictability(16-bit string)
+        byte[] key = keyString.getBytes();                                           //{'u','n','p','r','e','d','i','c','t','a','b','i','l','i','t','y'}
+        keySpec = new SecretKeySpec(key,"AES");
+        cipherTransformation = getServletContext().getInitParameter("cipher");  // AES/ECB/PKCS5Padding
+        
+        //Exception Handling for cipher
+        try {
+            cipher = Cipher.getInstance(cipherTransformation);
+        } catch (Exception e) {
+            throw new ServletException("Error initializing cipher", e);
+        }
+    }
+    
+    protected Connection getConnection() {
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(DBurl, DBusername, DBpassword);
+        } catch (SQLException e) {
+            System.out.println("Error getting database connection: " + e.getMessage());
+            // Optionally: handle the exception, for example by logging it, or rethrow it as a RuntimeException
+        }
+        return conn;
     }
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -55,43 +76,86 @@ public class Login extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //Redirect to Captcha servlet to generate a new CAPTCHA
+        response.sendRedirect("Captcha");
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //Prevent from caching
+        response.setHeader("Cache-control", "no-store, no-cache, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "0");
+        
+        String username = request.getParameter("username"); //gets the inputted username of the user
+        String password = request.getParameter("password"); //gets the inputted password of the user
+        
+        //Check if username & password field is empty else, throw NullValueException
+        try(Connection conn = getConnection()){           
+            if(username.isEmpty() && password.isEmpty())
+                throw new ServletException("NullValueException");
+        
+            //Selecting data from the database
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM APP.LOGIN_INFO WHERE username = ?");
+            stmt.setString(1,username);
+            ResultSet rs = stmt.executeQuery();
+
+            if(rs.next()){
+                //Create session object
+                HttpSession session = request.getSession();
+                session.setAttribute("username",username);
+                String role = rs.getString("role");
+                session.setAttribute("role",role);
+
+                String encryptedPassword = rs.getString("password");             //password in the database
+                String inputtedPassword = encrypt(password);                    //encrypts the inputted password
+
+                if(encryptedPassword.equals(inputtedPassword)){ //if credentials are valid and correct
+                    session.setAttribute("password",password);
+                    response.sendRedirect("Captcha");
+                }else{ //incorrect or invalid password
+                    request.setAttribute("errorMessage", "Invalid password");
+                    request.getRequestDispatcher("/error_2.jsp").forward(request,response);
+                }
+            }else{
+                if(!username.isEmpty() && !password.isEmpty()){ //incorrect username and password
+                    request.setAttribute("errorMessage","Both username and password are incorrect");
+                    request.getRequestDispatcher("/error_3.jsp").forward(request,response);
+                }else{ //username not in database and blank password
+                    request.setAttribute("errorMessage","Invalid username");
+                    request.getRequestDispatcher("/error_1.jsp").forward(request,response);
+                }
+            }            
+        }catch(SQLException e){
+            if("404".equals(e.getSQLState())) //error 404 page
+                request.getRequestDispatcher("/error_4.jsp").forward(request,response);
+            else
+                throw new ServletException(e);
+        }catch(ServletException e){ //redirects to noLoginCredentials.jsp
+            if("NullValueException".equals(e.getMessage()))
+                request.getRequestDispatcher("noLoginCredentials.jsp").forward(request, response);
+        }                
+    }
+    
+    //Encrypting method
+    private String encrypt(String strToEncrypt){
+        try{
+            cipher.init(Cipher.ENCRYPT_MODE, keySpec);
+            byte[] encryptedBytes = cipher.doFinal(strToEncrypt.getBytes());
+            String encryptedString = Base64.encodeBase64String(encryptedBytes);
+            System.out.println("Password to encrypt: " + strToEncrypt);
+            System.out.println("Encrypted password: " + encryptedString);
+            return encryptedString;
+        }catch (Exception e){
+            System.err.println("Error while encrypting: " + e.toString());
+        }
+        return null;
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
-
+    }
 }
