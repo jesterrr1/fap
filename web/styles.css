@@ -23,6 +23,17 @@ body {
   min-height: 100vh;
 }
 
+header {
+    background-color: var(--gray); /* Set your desired background color */
+    color: black; /* Set your desired text color */
+    padding: 0px;
+    text-align: center;
+    width: 100%;
+    position: fixed; /* Fix the header at the top */
+    top: 0; /* Set it at the top of the viewport */
+    z-index: 1000; /* Ensure it's above other elements */
+}
+
 #loader {
     position: absolute;
     top: calc(50% - 20px);
