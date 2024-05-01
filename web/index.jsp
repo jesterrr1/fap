@@ -4,7 +4,7 @@
     <head>
         <link rel="stylesheet" href="styles.css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Login Page</title>
+        <title>Welcome Page</title>
     </head>
     <body>
         <div id="loader">
