@@ -7,6 +7,7 @@ import javax.servlet.http.*;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.*;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -14,14 +15,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Patrick
- */
 public class Login extends HttpServlet {
 
     //Declaration of variables from DD
-    private String DBName;
+    private String DBname;          //LoginDB
+    private String DBusername;      //app
+    private String DBpassword;      //app
+    private String DBdriver;        //org.apache.derby.jdbc.ClientDriver
+    private String DBurl;           //jdbc:derby://localhost:1527/LoginDB
+    private String keyString;
+    private SecretKeySpec keySpec;
+    private Cipher cipher;
+    private String cipherTransformation;
+    
+    public void init(ServletConfig config) throws ServletException{
+        super.init(config);
+        
+        //Load DB credentials
+        //DBurl = getServletConfig().getInitParameter("")
+    }
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
