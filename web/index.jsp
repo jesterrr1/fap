@@ -2,10 +2,14 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="styles.css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Welcome Page</title>
+        <title>Login Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <div id="loader">
+            <div id="shadow"></div>
+            <div id="box"></div>
+        </div>
     </body>
 </html>
