@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package test;
 
 import java.io.IOException;
@@ -11,21 +7,28 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Patrick
- */
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
+import java.io.*;
+import javax.servlet.*;
+
 public class Captcha extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    private int captchaLength; //variable to hold the captcha length
+    
+    @Override
+    public void init(ServletConfig config) throws ServletException{
+        super.init(config);
+        
+        //Read the captcha length from the initialization parameter
+        String captchaLengthParam = config.getInitParameter("captchaLength");
+        captchaLength = Integer.parseInt(captchaLengthParam);
+    }
+               
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -43,40 +46,58 @@ public class Captcha extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //Generate a random CAPTCHA
+        String generatedCaptcha = generateCaptcha(captchaLength);
+        
+        //Set in session attribute
+        request.getSession().setAttribute("captcha",generatedCaptcha);
+        
+        //Redirect user to captcha.jsp to display CAPTCHA
+        response.sendRedirect("captcha.jsp");
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //Get the user-entered CAPTCHA
+        String userCaptcha = request.getParameter("captcha");
+        String captcha = (String) request.getSession().getAttribute("captcha");
+        
+        //Check if the user-entered CAPTCHA matches the stored CAPTCHA
+        if(checkCaptcha(captcha,userCaptcha)){
+            //CAPTCHA matched, go to success.jsp
+            response.sendRedirect("success.jsp");
+        }else{
+            //CAPTCHA NOT MATCHED, regenerate another and update session
+            String newGeneratedCaptcha = generateCaptcha(captchaLength);
+            request.getSession().setAttribute("captcha",newGeneratedCaptcha);
+            
+            //Redirect back to Captcha.jsp with new Captcha and an error message
+            response.sendRedirect("captcha.jsp?error=captcha");
+        }
+    }
+    
+    //Method to generate a Captcha of given length
+    static String generateCaptcha(int length){
+        // Characters to be included
+        String chrs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random rand = new Random();
+        StringBuilder captcha = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            int index = rand.nextInt(chrs.length());
+            captcha.append(chrs.charAt(index));
+	}
+	return captcha.toString();
+    }
+    
+    //Method to check if two CAPTCHAs are the same
+    static boolean checkCaptcha(String captcha, String userCaptcha){
+        return captcha.equals(userCaptcha);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";
