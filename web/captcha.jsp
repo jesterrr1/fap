@@ -15,7 +15,7 @@
                 <h2><%= session.getAttribute("captcha") %></h2>
                 <form action="Captcha" method="post">
                     <div class="input-box">
-                        <input type="text" id="captcha" name="captcha">
+                        <input type="text" id="captcha" name="captcha" required>
                         <label>Verify</label>
                     </div>
                     <button type="submit" class="btn">Submit</button>
