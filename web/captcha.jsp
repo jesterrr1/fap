@@ -12,16 +12,12 @@
     <body>
         <div class="container">
             <div class="login-box">
-                <h2>Verify</h2>
+                <h2><%= session.getAttribute("captcha") %></h2>
                 <form action="Captcha" method="post">
                     <div class="input-box">
                         <input type="text" id="captcha" name="captcha">
-                        <label><%= session.getAttribute("captcha") %></label>
+                        <label>Verify</label>
                     </div>
-<!--                    <div class="input-box">
-                        <input type="password" name="password">
-                        <label>Password</label>
-                    </div>-->
                     <button type="submit" class="btn">Submit</button>
                 </form>
             </div>

@@ -22,10 +22,10 @@
         <meta http-equiv="Expires" content="0">
         <link rel="stylesheet" href="styles.css">       
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Admin Success Page</title>
+        <title>Student Success Page</title>
     </head>
     <header>
-        <h1><% out.print(getServletContext().getInitParameter("contextHeader4"));%></h1>
+        <h1><% out.print(getServletContext().getInitParameter("contextHeader5"));%></h1>
     </header>
     <body>
         <h1>Hello World!</h1>
