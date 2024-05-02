@@ -34,10 +34,6 @@
         <param-name>contextFooter3</param-name>
         <param-value>, Inc. All Rights Reserved.</param-value>
     </context-param>
-    <!--rectangle na sumasakop sa buong taas na part which is color mejo black same lang sa active learning na site-->
-    <!--Logo ng active learning sa bandang left-->
-    <!--Key-->
-    <!--add some elements pa pero not much para simple lang-->
     <!--Key-->
     <context-param>
         <param-name>key</param-name>

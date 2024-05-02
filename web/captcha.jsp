@@ -72,10 +72,7 @@
             <span style="--i:48;"></span>
             <span style="--i:49;"></span>
         </div>
-        
-        
-        
-        
+                
         <!-- JavaScript to prevent copy-pasting -->
         <script>
             //Get the CAPTCHA input field
