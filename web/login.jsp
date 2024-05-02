@@ -12,18 +12,18 @@
     <body>
         <div class="container">
             <div class="login-box">
-                <h2>Welcome</h2>
-                <form action="Login" method="post">
-                    <div class="input-box">
-                        <input type="text" name="username">
-                        <label>Username</label>
-                    </div>
-                    <div class="input-box">
-                        <input type="password" name="password">
-                        <label>Password</label>
-                    </div>
-                    <button type="submit" class="btn">Login</button>
-                </form>
+              <h2>Login</h2>
+              <form action="Login" method="post">
+                <div class="input-box">
+                  <input type="text" name="username" required>
+                  <label>Username</label>
+                </div>
+                <div class="input-box">
+                  <input type="password" name="password" required>
+                  <label>Password</label>
+                </div>
+                <button type="submit" class="btn">Login</button>
+              </form>
             </div>
             <span style="--i:0;"></span>
             <span style="--i:1;"></span>
