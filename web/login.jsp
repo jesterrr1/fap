@@ -6,6 +6,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Login Page</title>
     </head>
+    <header>
+        <h1><% out.print(getServletContext().getInitParameter("contextHeader"));%></h1>
+    </header>
     <body>
         <div class="container">
             <div class="login-box">
@@ -74,4 +77,9 @@
             <span style="--i:49;"></span>
         </div>
     </body>
+    <footer>
+        <% out.print(getServletContext().getInitParameter("contextFooter1"));%>
+        <a href="https://activelearning.ph"><% out.print(getServletContext().getInitParameter("contextFooter2"));%></a>
+        <% out.print(getServletContext().getInitParameter("contextFooter3"));%>
+    </footer>
 </html>

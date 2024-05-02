@@ -14,6 +14,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
   box-sizing: border-box;
 }
 
+:root {
+    --black: #252323;
+    --gray: #52534F;
+}
 
 body {
   display: flex;
@@ -24,14 +28,34 @@ body {
 }
 
 header {
-    background-color: var(--gray); /* Set your desired background color */
-    color: black; /* Set your desired text color */
-    padding: 0px;
+    background-color: var(--black); /* Set your desired background color */
+    color: #fff; /* Set your desired text color */
+    padding: 10px;
     text-align: center;
     width: 100%;
     position: fixed; /* Fix the header at the top */
     top: 0; /* Set it at the top of the viewport */
     z-index: 1000; /* Ensure it's above other elements */
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    background-color: var(--gray); /* Set your desired background color */
+    color: #fff; /* Set your desired text color */
+}
+
+a, a:visited {
+    text-decoration: none;
+    color: white;
+
+}
+a:hover {
+    color: #ff7500;
+    text-decoration: underline;
 }
 
 #loader {
