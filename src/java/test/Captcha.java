@@ -62,6 +62,11 @@ public class Captcha extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //Prevent from caching
+        response.setHeader("Cache-control", "no-store, no-cache, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "0");
+        
         //Get the user-entered CAPTCHA
         String userCaptcha = request.getParameter("captcha");
         String captcha = (String) request.getSession().getAttribute("captcha");
