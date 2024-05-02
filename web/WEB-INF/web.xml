@@ -13,7 +13,14 @@
         <param-name>contextHeader3</param-name>
         <param-value>Captcha</param-value>
     </context-param>
-    
+    <context-param>
+        <param-name>contextHeader4</param-name>
+        <param-value>Admin Audit Log</param-value>
+    </context-param>
+    <context-param>
+        <param-name>contextHeader5</param-name>
+        <param-value>Student Audit Log</param-value>
+    </context-param>
     <!--Footer-->
     <context-param>
         <param-name>contextFooter1</param-name>

@@ -73,8 +73,15 @@ public class Captcha extends HttpServlet {
         
         //Check if the user-entered CAPTCHA matches the stored CAPTCHA
         if(checkCaptcha(captcha,userCaptcha)){
-            //CAPTCHA matched, go to success.jsp
-            response.sendRedirect("success.jsp");
+            //CAPTCHA matched
+            //Get the user role
+            String userRole = (String) request.getSession().getAttribute("role");
+            
+            //Check if the usr role is "admin" or "guest"
+            if("admin".equals(userRole)) //if user role is admin, success.jsp
+                response.sendRedirect("success.jsp");
+            else if("guest".equals(userRole)) //if user role is guest, success2.jsp
+                response.sendRedirect("success2.jsp");
         }else{
             //CAPTCHA NOT MATCHED, regenerate another and update session
             String newGeneratedCaptcha = generateCaptcha(captchaLength);
