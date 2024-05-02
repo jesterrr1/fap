@@ -26,7 +26,7 @@
             function redirect() {
                 window.location.href = 'login.jsp';
             }
-            setTimeout(redirect, 7000);
+            setTimeout(redirect, 5000);
         </script>
     </body>
     <footer>
