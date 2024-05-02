@@ -11,11 +11,19 @@
             <div id="shadow"></div>
             <div id="box"></div>
         </div>
+        <div id="loader2">
+            <div id="shadow2"></div>
+            <div id="box2"></div>
+        </div>
+        <div id="loader3">
+            <div id="shadow3"></div>
+            <div id="box3"></div>
+        </div>
         <script type="text/javascript">
             function redirect() {
                 window.location.href = 'login.jsp';
             }
-            setTimeout(redirect, 2000);
+            setTimeout(redirect, 7000);
         </script>
     </body>
 </html>
