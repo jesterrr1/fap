@@ -6,6 +6,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Welcome Page</title>
     </head>
+    <header>
+        <h1><% out.print(getServletContext().getInitParameter("contextHeader1"));%></h1>
+    </header>
     <body>
         <div id="loader">
             <div id="shadow"></div>
@@ -26,4 +29,9 @@
             setTimeout(redirect, 7000);
         </script>
     </body>
+    <footer>
+        <% out.print(getServletContext().getInitParameter("contextFooter1"));%>
+        <a href="https://activelearning.ph"><% out.print(getServletContext().getInitParameter("contextFooter2"));%></a>
+        <% out.print(getServletContext().getInitParameter("contextFooter3"));%>
+    </footer>
 </html>

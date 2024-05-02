@@ -2,12 +2,18 @@
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     <!--Header-->
     <context-param>
-        <param-name>contextHeader</param-name>
+        <param-name>contextHeader1</param-name>
         <param-value>Welcome to ActiveLearning</param-value>
     </context-param>
-    <!--rectangle na sumasakop sa buong taas na part which is color mejo black same lang sa active learning na site-->
-    <!--Logo ng active learning sa bandang left-->
-    <!--add some elements pa pero not much para simple lang-->
+    <context-param>
+        <param-name>contextHeader2</param-name>
+        <param-value>Login</param-value>
+    </context-param>
+    <context-param>
+        <param-name>contextHeader3</param-name>
+        <param-value>Captcha</param-value>
+    </context-param>
+    
     <!--Footer-->
     <context-param>
         <param-name>contextFooter1</param-name>

@@ -7,7 +7,7 @@
         <title>Login Page</title>
     </head>
     <header>
-        <h1><% out.print(getServletContext().getInitParameter("contextHeader"));%></h1>
+        <h1><% out.print(getServletContext().getInitParameter("contextHeader2"));%></h1>
     </header>
     <body>
         <div class="container">
