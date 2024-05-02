@@ -13,13 +13,13 @@
         <div class="container">
             <div class="login-box">
                 <h2>Welcome</h2>
-                <form action="#">
+                <form action="Login" method="post">
                     <div class="input-box">
-                        <input type="text" required>
+                        <input type="text" name="username">
                         <label>Username</label>
                     </div>
                     <div class="input-box">
-                        <input type="password" required>
+                        <input type="password" name="password">
                         <label>Password</label>
                     </div>
                     <button type="submit" class="btn">Login</button>
