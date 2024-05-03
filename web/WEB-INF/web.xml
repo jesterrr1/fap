@@ -18,6 +18,10 @@
         <param-value>Admin Audit Log</param-value>
     </context-param>
     <context-param>
+        <param-name>contextError</param-name>
+        <param-value>Error in Password</param-value>
+    </context-param>
+    <context-param>
         <param-name>contextHeader5</param-name>
         <param-value>Student Audit Log</param-value>
     </context-param>
