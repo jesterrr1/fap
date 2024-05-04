@@ -28,7 +28,7 @@
                 Sorry, the page you were looking for was not found. Choose one of the following buttons to return
             </p>
             <div class="link__404">
-                <a href="index.jsp">Back</a>
+
                 <a href="index.jsp">Back to Home</a>
             </div>
         </div>
