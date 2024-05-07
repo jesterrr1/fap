@@ -108,12 +108,43 @@
             <param-name>captchaLength</param-name>
             <param-value>4</param-value>
         </init-param>
-    </servlet>
-    <!--Servlet Mapping -->
+    </servlet>    
+    <!--studentExpenseDBConnection Servlet-->
     <servlet>
         <servlet-name>studentExpenseDBConnection</servlet-name>
         <servlet-class>test.studentExpenseDBConnection</servlet-class>
+        <!--ExpDBname-->
+        <init-param>
+            <description>this is the Student Expenses Database Name</description>
+            <param-name>ExpDBname</param-name>
+            <param-value>ExpensesDB</param-value>
+        </init-param>
+        <!--ExpDBusername-->
+        <init-param>
+            <description>this is the Student Expenses  Database username</description>
+            <param-name>ExpDBusername</param-name>
+            <param-value>admin</param-value>
+        </init-param>
+        <!--ExpDBpassword-->
+        <init-param>
+            <description>this is the Student Expenses Database password</description>
+            <param-name>ExpDBpassword</param-name>
+            <param-value>123</param-value>
+        </init-param>
+        <!--ExpDBdriver-->
+        <init-param>
+            <description>this is the Database Driver</description>
+            <param-name>ExpDBdriver</param-name>
+            <param-value>com.microsoft.sqlserver.jdbc.SQLServerDriver</param-value>
+        </init-param>
+        <!--ExpDBurl-->
+        <init-param>
+            <description>this is the Database URL</description>
+            <param-name>ExpDBurl</param-name>
+            <param-value>jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=ExpensesDB;encrypt=true;trustServerCertificate=true;</param-value>
+        </init-param>       
     </servlet>
+    <!--Servlet Mapping -->    
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>

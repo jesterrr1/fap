@@ -108,6 +108,10 @@ public class Login extends HttpServlet {
                 session.setAttribute("username",username);
                 String role = rs.getString("role");
                 session.setAttribute("role",role);
+                
+                //Fetch the UserId from the result set and store in the session
+                String USER_ID = rs.getString("USER_ID");
+                session.setAttribute("USER_ID",USER_ID);
 
                 String encryptedPassword = rs.getString("password");             //password in the database
                 String inputtedPassword = encrypt(password);                    //encrypts the inputted password

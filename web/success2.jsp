@@ -28,12 +28,15 @@
         <h1><% out.print(getServletContext().getInitParameter("contextHeader5"));%></h1>
     </header>
     <body>
-        <!--Welcome, [student + User ID nung nag login]-->
         <div>
-            <h1>Welcome, <span id="user-customized"><%=session.getAttribute("username")%></span></h1>
+            <h1>Welcome, <span id="user-customized">Student <%=session.getAttribute("USER_ID")%></span></h1>
             <div class="">
-                <button type="submit">Singe View</button>
-                <button type="submit">Logout<button>
+                <form action="studentExpenseDBConnection" method="post">
+                    <button type="submit">Singe View</button>
+                </form>
+                <form action="Logout" method="post">
+                    <button type="submit">Logout<button>
+                </form>
             </div>
         </div>
         

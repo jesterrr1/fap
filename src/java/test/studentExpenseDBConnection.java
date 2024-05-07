@@ -1,8 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package test;
+
+import java.io.*;
+import java.sql.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+import org.apache.commons.codec.binary.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,72 +15,101 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Patrick
- */
 public class studentExpenseDBConnection extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    //Declaration of variables from DD
+    private String ExpDBname;
+    private String ExpDBusername;
+    private String ExpDBpassword;
+    private String ExpDBdriver;
+    private String ExpDBurl;
+    
+    public void init(ServletConfig config) throws ServletException{
+        super.init(config);
+        
+        //Load DB credentials
+        ExpDBdriver = getServletConfig().getInitParameter("ExpDBdriver");         //com.microsoft.sqlserver.jdbc.SQLServerDriver
+        ExpDBurl = getServletConfig().getInitParameter("ExpDBurl");               //jdbc:sqlserver://localhost\SQLEXPRESS:1433;databaseName=ExpensesDB;encrypt=true;trustServerCertificate=true;
+        ExpDBusername = getServletConfig().getInitParameter("ExpDBusername");     //admin
+        ExpDBpassword = getServletConfig().getInitParameter("ExpDBpassword");     //123
+    }
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet studentExpenseDBConnection</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet studentExpenseDBConnection at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try{
+            //Load driver
+            Class.forName(ExpDBdriver);
+            
+            //Establish a connection
+            conn = DriverManager.getConnection(ExpDBurl,ExpDBusername,ExpDBpassword);
+            
+            //Get the username of the currently logged in user
+            HttpSession session = request.getSession();
+//            String loggedInUser = (String) session.getAttribute("username");
+//            String loggedInUserRole = (String) session.getAttribute("role");
+            String loggedInUserID = (String) session.getAttribute("USER_ID");
+                       
+            //Prepare a SQL query
+            String query = "SELECT Date, Amount, PaymentMethod, Balance, TransactionID FROM dbo.EXPENSE_LOGS WHERE UserID = ?";
+            stmt = conn.prepareStatement(query);
+            stmt.setString(1, loggedInUserID);
+            
+            //Execute the query and get the result
+            rs = stmt.executeQuery();
+            
+            //Process the result
+            while(rs.next()){
+                //Get data from the current row and do something with it
+                String data1 = rs.getString("UserID");
+                String data2 = rs.getString("Date");
+                String data3 = rs.getString("Amount");
+                String data4 = rs.getString("PaymentMethod");
+                String data5 = rs.getString("Balance");
+                String data6 = rs.getString("TransactionID");
+                System.out.println("Column1: " + data1 + " Column2: " 
+                        + data2 + " Column3: " + data3 + " Column4: " + data4 + " Column5: " 
+                        + data5 + " Column6: " + data6 );
+            }                       
+        }catch(ClassNotFoundException | SQLException e){
+            e.printStackTrace();
+        }finally{
+            //Close the resources
+            if(rs !=null){
+                try{
+                    rs.close();
+                }catch (SQLException e){}
+            }
+            if(stmt != null){
+                try{
+                    stmt.close();
+                }catch (SQLException e){}
+            }
+            if(conn != null){
+                try{
+                    conn.close();
+                }catch (SQLException e){}
+            }
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";
