@@ -15,7 +15,7 @@
     </context-param>
     <context-param>
         <param-name>contextHeader4</param-name>
-        <param-value>Admin Audit Log</param-value>
+        <param-value>Admin Log</param-value>
     </context-param>
     <context-param>
         <param-name>contextError</param-name>
@@ -23,7 +23,7 @@
     </context-param>
     <context-param>
         <param-name>contextHeader5</param-name>
-        <param-value>Student Audit Log</param-value>
+        <param-value>Student Log</param-value>
     </context-param>
     <!--Footer-->
     <context-param>
@@ -110,6 +110,10 @@
         </init-param>
     </servlet>
     <!--Servlet Mapping -->
+    <servlet>
+        <servlet-name>studentExpenseDBConnection</servlet-name>
+        <servlet-class>test.studentExpenseDBConnection</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -135,6 +139,10 @@
         <exception-type>javax.servlet.ServletException</exception-type>
         <location>/noLoginCredentials.jsp</location>
     </error-page>
+    <servlet-mapping>
+        <servlet-name>studentExpenseDBConnection</servlet-name>
+        <url-pattern>/studentExpenseDBConnection</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             5

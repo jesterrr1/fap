@@ -28,7 +28,10 @@
         <h1><% out.print(getServletContext().getInitParameter("contextHeader5"));%></h1>
     </header>
     <body>
-        <h1>Hello World!</h1>
+        <!--Welcome, [student + User ID nung nag login]-->
+        <!--Expense-->
+        <!--Single View-->
+        <!--Logout-->
     </body>
     <footer>
         <% out.print(getServletContext().getInitParameter("contextFooter1"));%>
