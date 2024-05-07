@@ -5,6 +5,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Session Destroyed Error Page</title>
         <!--Kapag nag attempt to go to success page without properly logging in-->
+<!--        Session Timeout-->
     </head>
     <body>
         <h1>Hello World!</h1>

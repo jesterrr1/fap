@@ -28,7 +28,7 @@
         <h1><% out.print(getServletContext().getInitParameter("contextHeader4"));%></h1>
     </header>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Welcome, <span id="user-customized"><%=session.getAttribute("username")%></span></h1>
     </body>
     <footer>
         <% out.print(getServletContext().getInitParameter("contextFooter1"));%>

@@ -481,3 +481,9 @@ h2 {
         width: 90%;
     }
 }
+
+
+#user-customized {
+    color: #ff7500;
+    font-size: 60px;
+}

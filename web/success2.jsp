@@ -29,6 +29,14 @@
     </header>
     <body>
         <!--Welcome, [student + User ID nung nag login]-->
+        <div>
+            <h1>Welcome, <span id="user-customized"><%=session.getAttribute("username")%></span></h1>
+            <div class="">
+                <button type="submit">Singe View</button>
+                <button type="submit">Logout<button>
+            </div>
+        </div>
+        
         <!--Expense-->
         <!--Single View-->
         <!--Logout-->
