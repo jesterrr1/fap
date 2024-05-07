@@ -32,8 +32,13 @@
         <div>
             <h1>Welcome, <span id="user-customized"><%=session.getAttribute("username")%></span></h1>
             <div class="">
-                <button type="submit">Singe View</button>
-                <button type="submit">Logout<button>
+                <button type="submit">Single View</button>
+                
+            </div>
+            <div>
+                <form action="Logout"  method="POST">
+                    <input type="submit" value="Logout">
+                </form>
             </div>
         </div>
         
