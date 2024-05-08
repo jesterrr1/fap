@@ -113,10 +113,10 @@
             <param-value>4</param-value>
         </init-param>
     </servlet>
-    <!--studentExpenseDBConnection Servlet-->
+    <!--ViewRecords Servlet-->
     <servlet>
-        <servlet-name>studentExpenseDBConnection</servlet-name>
-        <servlet-class>test.studentExpenseDBConnection</servlet-class>
+        <servlet-name>ViewRecords</servlet-name>
+        <servlet-class>test.ViewRecords</servlet-class>
         <!--ExpDBname-->
         <init-param>
             <description>this is the Student Expenses Database Name</description>
@@ -125,7 +125,7 @@
         </init-param>
         <!--ExpDBusername-->
         <init-param>
-            <description>this is the Student Expenses  Database username</description>
+            <description>this is the Student Expenses Database username</description>
             <param-name>ExpDBusername</param-name>
             <param-value>admin</param-value>
         </init-param>
@@ -148,15 +148,12 @@
             <param-value>jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=ExpensesDB;encrypt=true;trustServerCertificate=true;</param-value>
         </init-param>
     </servlet>
-    <!--Servlet Mapping -->
-    <servlet>
-        <servlet-name>studentGeneratePDF</servlet-name>
-        <servlet-class>test.studentGeneratePDF</servlet-class>
-    </servlet>
-    <servlet>
+    <!--GeneratePDF servlet-->
+     <servlet>
         <servlet-name>GeneratePDF</servlet-name>
         <servlet-class>test.GeneratePDF</servlet-class>
     </servlet>
+    <!--Servlet Mapping -->   
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -183,16 +180,12 @@
         <location>/noLoginCredentials.jsp</location>
     </error-page>
     <servlet-mapping>
-        <servlet-name>studentExpenseDBConnection</servlet-name>
-        <url-pattern>/studentExpenseDBConnection</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>studentGeneratePDF</servlet-name>
-        <url-pattern>/studentGeneratePDF</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>GeneratePDF</servlet-name>
         <url-pattern>/GeneratePDF</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewRecords</servlet-name>
+        <url-pattern>/ViewRecords</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

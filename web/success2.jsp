@@ -31,7 +31,7 @@
         <div>
             <h1>Welcome, <span id="user-customized">Student <%=session.getAttribute("USER_ID")%></span></h1>
             <div class="">
-                <!--<form action="" method="post">-->
+                <form action="ViewRecords" method="post">
                     <button type="submit">Singe View</button>
                 </form>
                 <form action="Logout" method="post">
