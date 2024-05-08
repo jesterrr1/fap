@@ -487,3 +487,16 @@ h2 {
     color: #ff7500;
     font-size: 60px;
 }
+
+.button-box {
+    position: relative;
+    margin: 25px 100px;
+}
+
+.button-box .btn {
+    margin-bottom: 10px; 
+}
+
+.button-box btn:hover {
+    color: #ffcc00;
+}

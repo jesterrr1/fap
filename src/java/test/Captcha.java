@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 import java.io.*;
 import javax.servlet.*;
+import javax.servlet.http.HttpSession;
 
 public class Captcha extends HttpServlet {
 
@@ -62,6 +63,8 @@ public class Captcha extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        
         //Prevent from caching
         response.setHeader("Cache-control", "no-store, no-cache, must-revalidate");
         response.setHeader("Pragma", "no-cache");
@@ -79,9 +82,13 @@ public class Captcha extends HttpServlet {
             
             //Check if the usr role is "admin" or "guest"
             if("admin".equals(userRole)) //if user role is admin, success.jsp
+            {
                 response.sendRedirect("success.jsp");
+                session.setAttribute("verifyCaptcha", false);
+            }
             else if("guest".equals(userRole)) //if user role is guest, success2.jsp
                 response.sendRedirect("success2.jsp");
+                session.setAttribute("verifyCaptcha", false);
         }else{
             //CAPTCHA NOT MATCHED, regenerate another and update session
             String newGeneratedCaptcha = generateCaptcha(captchaLength);

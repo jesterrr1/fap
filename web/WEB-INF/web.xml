@@ -29,6 +29,10 @@
         <param-name>contextHeader6</param-name>
         <param-value>Student View</param-value>
     </context-param>
+    <context-param>
+        <param-name>contextHeader7</param-name>
+        <param-value>Multiple Login View</param-value>
+    </context-param>
     <!--Footer-->
     <context-param>
         <param-name>contextFooter1</param-name>
@@ -117,6 +121,36 @@
     <servlet>
         <servlet-name>ViewRecords</servlet-name>
         <servlet-class>test.ViewRecords</servlet-class>
+        <!--DBname-->
+        <init-param>
+            <description>this is the Login Database Name</description>
+            <param-name>DBname</param-name>
+            <param-value>LoginDB</param-value>
+        </init-param>
+        <!--DBusername-->
+        <init-param>
+            <description>this is the Login Database username</description>
+            <param-name>DBusername</param-name>
+            <param-value>app</param-value>
+        </init-param>
+        <!--DBpassword-->
+        <init-param>
+            <description>this is the Login Database password</description>
+            <param-name>DBpassword</param-name>
+            <param-value>app</param-value>
+        </init-param>
+        <!--DBdriver-->
+        <init-param>
+            <description>this is the Login Database Driver</description>
+            <param-name>DBdriver</param-name>
+            <param-value>org.apache.derby.jdbc.ClientDriver</param-value>
+        </init-param>
+        <!--DBurl-->
+        <init-param>
+            <description>this is the Login Database URL</description>
+            <param-name>DBurl</param-name>
+            <param-value>jdbc:derby://localhost:1527/LoginDB</param-value>
+        </init-param>
         <!--ExpDBname-->
         <init-param>
             <description>this is the Student Expenses Database Name</description>

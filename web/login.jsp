@@ -1,6 +1,19 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+    <%
+        response.addHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.addHeader("Expires", "0");
+        response.addHeader("Vary", "*");
+        
+        if(session.getAttribute("verifyCaptcha")!=null)
+            session.setAttribute("verifyCaptcha", null);
+        
+        if(session.getAttribute("username")!=null){
+            session.setAttribute("username", null);
+            session.invalidate();
+        } 
+    %>
     <head>
         <link rel="stylesheet" href="styles.css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
