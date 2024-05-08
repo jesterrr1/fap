@@ -25,6 +25,10 @@
         <param-name>contextHeader5</param-name>
         <param-value>Student Log</param-value>
     </context-param>
+    <context-param>
+        <param-name>contextHeader6</param-name>
+        <param-value>Student View</param-value>
+    </context-param>
     <!--Footer-->
     <context-param>
         <param-name>contextFooter1</param-name>
@@ -108,7 +112,7 @@
             <param-name>captchaLength</param-name>
             <param-value>4</param-value>
         </init-param>
-    </servlet>    
+    </servlet>
     <!--studentExpenseDBConnection Servlet-->
     <servlet>
         <servlet-name>studentExpenseDBConnection</servlet-name>
@@ -142,9 +146,13 @@
             <description>this is the Database URL</description>
             <param-name>ExpDBurl</param-name>
             <param-value>jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=ExpensesDB;encrypt=true;trustServerCertificate=true;</param-value>
-        </init-param>       
+        </init-param>
     </servlet>
-    <!--Servlet Mapping -->    
+    <!--Servlet Mapping -->
+    <servlet>
+        <servlet-name>studentGeneratePDF</servlet-name>
+        <servlet-class>test.studentGeneratePDF</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -173,6 +181,10 @@
     <servlet-mapping>
         <servlet-name>studentExpenseDBConnection</servlet-name>
         <url-pattern>/studentExpenseDBConnection</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>studentGeneratePDF</servlet-name>
+        <url-pattern>/studentGeneratePDF</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

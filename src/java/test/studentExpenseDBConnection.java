@@ -10,6 +10,10 @@ import org.apache.commons.codec.binary.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -49,10 +53,8 @@ public class studentExpenseDBConnection extends HttpServlet {
             //Establish a connection
             conn = DriverManager.getConnection(ExpDBurl,ExpDBusername,ExpDBpassword);
             
-            //Get the username of the currently logged in user
+            //Get the userid of the currently logged in user
             HttpSession session = request.getSession();
-//            String loggedInUser = (String) session.getAttribute("username");
-//            String loggedInUserRole = (String) session.getAttribute("role");
             String loggedInUserID = (String) session.getAttribute("USER_ID");
                        
             //Prepare a SQL query
@@ -63,19 +65,22 @@ public class studentExpenseDBConnection extends HttpServlet {
             //Execute the query and get the result
             rs = stmt.executeQuery();
             
-            //Process the result
+            List<Map<String,String>> expenseLogs = new ArrayList<>();
             while(rs.next()){
-                //Get data from the current row and do something with it
-                String data1 = rs.getString("UserID");
-                String data2 = rs.getString("Date");
-                String data3 = rs.getString("Amount");
-                String data4 = rs.getString("PaymentMethod");
-                String data5 = rs.getString("Balance");
-                String data6 = rs.getString("TransactionID");
-                System.out.println("Column1: " + data1 + " Column2: " 
-                        + data2 + " Column3: " + data3 + " Column4: " + data4 + " Column5: " 
-                        + data5 + " Column6: " + data6 );
-            }                       
+                Map<String, String> log = new HashMap<>();
+                log.put("Date", rs.getString("Date"));
+                log.put("Amount", rs.getString("Amount"));
+                log.put("PaymentMethod", rs.getString("PaymentMethod"));
+                log.put("Balance", rs.getString("Balance"));
+                log.put("TransactionID", rs.getString("TransactionID"));
+                expenseLogs.add(log);
+            }
+            
+            //Store expenseLogs in the session
+            session.setAttribute("expenseLogs",expenseLogs);            
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/studentDBView.jsp");
+            dispatcher.forward(request,response);
+                                  
         }catch(ClassNotFoundException | SQLException e){
             e.printStackTrace();
         }finally{
