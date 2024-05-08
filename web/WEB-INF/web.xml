@@ -153,6 +153,10 @@
         <servlet-name>studentGeneratePDF</servlet-name>
         <servlet-class>test.studentGeneratePDF</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GeneratePDF</servlet-name>
+        <servlet-class>test.GeneratePDF</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -185,6 +189,10 @@
     <servlet-mapping>
         <servlet-name>studentGeneratePDF</servlet-name>
         <url-pattern>/studentGeneratePDF</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GeneratePDF</servlet-name>
+        <url-pattern>/GeneratePDF</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
