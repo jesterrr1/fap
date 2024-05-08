@@ -119,6 +119,7 @@ public class Login extends HttpServlet {
                 if(encryptedPassword.equals(inputtedPassword)){ //if credentials are valid and correct
                     session.setAttribute("password",password);
                     response.sendRedirect("Captcha");
+                    session.setAttribute("verifyCaptcha", true);
                 }else{ //incorrect or invalid password
                     request.setAttribute("errorMessage", "Invalid password");
                     request.getRequestDispatcher("/error_2.jsp").forward(request,response);

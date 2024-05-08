@@ -1,6 +1,17 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+    <%
+        response.addHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.addHeader("Expires", "0");
+        response.addHeader("Pragma", "no-cache");
+        response.addHeader("Vary", "*");
+        
+        if(session.getAttribute("username")==null||session.getAttribute("verifyCaptcha")==null)
+            response.sendRedirect(request.getContextPath() + "/error_session.jsp");
+        else if(session.getAttribute("username")!=null && Boolean.parseBoolean(session.getAttribute("verifyCaptcha").toString())==false)
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
+    %>
     <head>
         <link rel="stylesheet" href="styles.css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">

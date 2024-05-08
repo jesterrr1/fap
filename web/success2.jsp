@@ -30,12 +30,13 @@
     <body>
         <div>
             <h1>Welcome, <span id="user-customized">Student <%=session.getAttribute("USER_ID")%></span></h1>
-            <div class="">
+            <div class="button-box">
                 <!--<form action="" method="post">-->
-                    <button type="submit">Singe View</button>
-                </form>
-                <form action="Logout" method="post">
-                    <button type="submit">Logout<button>
+                    <button type="submit" class="btn">Single View</button>
+            </div>
+            <div class="button-box">
+                <form action="Logout" method="post" class="btn">
+                    <button type="submit" class="btn">Logout<button>
                 </form>
             </div>
         </div>
