@@ -65,7 +65,43 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             if("admin".endsWith(role)){
                 String action = request.getParameter("action");
                 if("singleView1".equals(action)){
-                    //Login Single View Button 
+                    //Login Single View Button
+                    // Redirect to the loginSearch.jsp page
+                    request.getRequestDispatcher("/loginSearch.jsp").forward(request, response);                
+                }
+                else if("searchLogin".equals(action)){
+                    String username = request.getParameter("username");
+                    try {
+                        // Query the database to check if the username exists
+                        Class.forName(DBdriver);
+                        conn = DriverManager.getConnection(DBurl, DBusername, DBpassword);
+                        stmt = conn.prepareStatement("SELECT USER_ID, role FROM APP.LOGIN_INFO WHERE username = ?");
+                        stmt.setString(1, username);
+                        rs = stmt.executeQuery();
+
+                        if (rs.next()) {
+                            // Username exists, proceed with search functionality
+                            String userID = rs.getString("USER_ID");
+                            //String role = rs.getString("role");
+
+                            // Set the retrieved values as request attributes
+                            request.setAttribute("username", username);
+                            request.setAttribute("userID", userID);
+                            request.setAttribute("role", role);
+
+                            // Forward the request to adminSingleViewLogin.jsp
+                            request.getRequestDispatcher("/adminSingleViewLogin.jsp").forward(request, response);
+                        } else {
+                            // Username doesn't exist, display error and clear the input field
+                            request.setAttribute("errorMessage", "Username does not exist. Please enter another username.");
+                            request.getRequestDispatcher("/loginSearch.jsp").forward(request, response);
+                        }
+                    } catch (ClassNotFoundException | SQLException e) {
+                        e.printStackTrace();
+                    } finally {
+                        // Close resources
+                        // ...
+                    }
                 }
                 else if("multipleView1".equals(action)){
                     //Login Multiple View Button

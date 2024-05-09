@@ -33,6 +33,14 @@
         <param-name>contextHeader7</param-name>
         <param-value>Multiple Login View</param-value>
     </context-param>
+    <context-param>
+        <param-name>contextHeader8</param-name>
+        <param-value>Login Search</param-value>
+    </context-param>
+    <context-param>
+        <param-name>contextHeader9</param-name>
+        <param-value>Single Login View</param-value>
+    </context-param>
     <!--Footer-->
     <context-param>
         <param-name>contextFooter1</param-name>
