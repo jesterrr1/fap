@@ -22,7 +22,7 @@
         <meta http-equiv="Expires" content="0">
         <link rel="stylesheet" href="styles.css">       
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Admin Success Page</title>
+        <title>ADMIN LOG</title>
     </head>
     <header>
         <h1><% out.print(getServletContext().getInitParameter("contextHeader4"));%></h1>
@@ -45,7 +45,7 @@
                 <button type="submit" class="btn">Single View</button>
             </form>            
             <form action="ViewRecords" method="post">
-                <input type="hidden" name="action" value="singleView2">
+                <input type="hidden" name="action" value="multipleView2">
                 <button type="submit" class="btn">Multiple View</button>
             </form>
             <br><br>

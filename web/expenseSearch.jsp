@@ -4,15 +4,15 @@
     <head>
         <link rel="stylesheet" href="styles.css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>LOGIN SEARCH</title>
+        <title>ENROLLMENT EXPENSE SEARCH</title>
     </head>
     <header>
-        <h1><% out.print(getServletContext().getInitParameter("contextHeader8"));%></h1>
+        <h1><% out.print(getServletContext().getInitParameter("contextHeader9"));%></h1>
     </header>
     <body>
         <h1>Enter a Username</h1>
         <form action="ViewRecords" method="get">
-            <input type="hidden" name="action" value="searchLogin">
+            <input type="hidden" name="action" value="searchExpense">
             <label for="username">Username:</label><br>
             <input type="text" id="username" name="username"><br>
             <input type="submit" value="Search">

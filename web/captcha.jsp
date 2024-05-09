@@ -15,7 +15,7 @@
     <head>
         <link rel="stylesheet" href="styles.css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Captcha Page</title>
+        <title>CAPTCHA</title>
     </head>
     <header>
         <h1><% out.print(getServletContext().getInitParameter("contextHeader3"));%></h1>

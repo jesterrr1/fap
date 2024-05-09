@@ -17,7 +17,7 @@
     <head>
         <link rel="stylesheet" href="styles.css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Login Page</title>
+        <title>LOGIN</title>
     </head>
     <header>
         <h1><% out.print(getServletContext().getInitParameter("contextHeader2"));%></h1>

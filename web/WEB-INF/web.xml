@@ -7,39 +7,47 @@
     </context-param>
     <context-param>
         <param-name>contextHeader2</param-name>
-        <param-value>Login</param-value>
+        <param-value>LOGIN</param-value>
     </context-param>
     <context-param>
         <param-name>contextHeader3</param-name>
-        <param-value>Captcha</param-value>
+        <param-value>CAPTCHA</param-value>
     </context-param>
     <context-param>
         <param-name>contextHeader4</param-name>
-        <param-value>Admin Log</param-value>
+        <param-value>ADMIN LOG</param-value>
     </context-param>
     <context-param>
         <param-name>contextError</param-name>
-        <param-value>Error in Password</param-value>
+        <param-value>ERROR IN PASSWORD</param-value>
     </context-param>
     <context-param>
         <param-name>contextHeader5</param-name>
-        <param-value>Student Log</param-value>
+        <param-value>STUDENT LOG</param-value>
     </context-param>
     <context-param>
         <param-name>contextHeader6</param-name>
-        <param-value>Student View</param-value>
+        <param-value>STUDENT VIEW</param-value>
     </context-param>
     <context-param>
         <param-name>contextHeader7</param-name>
-        <param-value>Multiple Login View</param-value>
+        <param-value>LOGIN VIEW</param-value>
     </context-param>
     <context-param>
         <param-name>contextHeader8</param-name>
-        <param-value>Login Search</param-value>
+        <param-value>LOGIN SEARCH</param-value>
     </context-param>
     <context-param>
         <param-name>contextHeader9</param-name>
-        <param-value>Single Login View</param-value>
+        <param-value>ENROLLMENT EXPENSE SEARCH</param-value>
+    </context-param>
+    <context-param>
+        <param-name>contextHeader10</param-name>
+        <param-value>ENROLLMENT LOG</param-value>
+    </context-param>
+    <context-param>
+        <param-name>contextHeader11</param-name>
+        <param-value>ENROLLMENT LOGS</param-value>
     </context-param>
     <!--Footer-->
     <context-param>

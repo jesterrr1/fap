@@ -22,7 +22,7 @@
         <meta http-equiv="Expires" content="0">
         <link rel="stylesheet" href="styles.css">       
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Student Success Page</title>
+        <title>STUDENT LOG</title>
     </head>
     <header>
         <h1><% out.print(getServletContext().getInitParameter("contextHeader5"));%></h1>
@@ -32,7 +32,7 @@
             <h1>Welcome, <span id="user-customized">Student <%=session.getAttribute("USER_ID")%></span></h1>
             <div class="button-box">
                 <form action="ViewRecords" method="post">
-                    <button type="submit" class="btn">Singe View</button>
+                    <button type="submit" class="btn">Single View</button>
                 </form>
                 <form action="Logout" method="post">
                     <button type="submit" class="btn">Logout</button>           
