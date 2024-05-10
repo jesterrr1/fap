@@ -11,24 +11,29 @@
         <h1><% out.print(getServletContext().getInitParameter("contextHeader12"));%></h1>
     </header>
     <body>
-        <h2>LOGIN</h2>
+        <div>
+            <div>
+                <h1><span id="user-customized">LOGIN</span></h1>
+            </div>
+            <div>
+                <h2>Student ID#: <%= session.getAttribute("USER_ID") %></h2>
+                <p>Username: <%= session.getAttribute("username") %></p>
+                <p>Role: <%= session.getAttribute("role") %></p> 
+                <button onclick="window.location.href='success2.jsp'">Back to Admin Log</button>
+                <form action="Logout" method="post">
+                    <input type="submit" value="Logout">
+                </form>
+                <form action="GeneratePDF" method="post">
+                    <input type="hidden" name="action" value="loginViewStudent">
+                    <input type="hidden" name="username" value="<%= session.getAttribute("username") %>">
+                    <input type="hidden" name="USER_ID" value="<%= session.getAttribute("USER_ID") %>">
+                    <input type="hidden" name="role" value="<%= session.getAttribute("role") %>">
+                    <input type="hidden" name="header" value="${initParam['contextHeader12']}">
+                    <input type="submit" value="Generate PDF">
+                </form>
+            </div>
+        </div>
         <p></p>
-
-        <h2>Student ID#: <%= session.getAttribute("USER_ID") %></h2>
-        <p>Username: <%= session.getAttribute("username") %></p>
-        <p>Role: <%= session.getAttribute("role") %></p> 
-        <button onclick="window.location.href='success2.jsp'">Back to Student Log</button>
-        <form action="Logout" method="post">
-            <input type="submit" value="Logout">
-        </form>
-        <form action="GeneratePDF" method="post">
-            <input type="hidden" name="action" value="loginViewStudent">
-            <input type="hidden" name="username" value="<%= session.getAttribute("username") %>">
-            <input type="hidden" name="USER_ID" value="<%= session.getAttribute("USER_ID") %>">
-            <input type="hidden" name="role" value="<%= session.getAttribute("role") %>">
-            <input type="hidden" name="header" value="${initParam['contextHeader12']}">
-            <input type="submit" value="Generate PDF">
-        </form>
     </body>
     <footer>
         <% out.print(getServletContext().getInitParameter("contextFooter1"));%>

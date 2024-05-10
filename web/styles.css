@@ -613,3 +613,10 @@ h2 {
     transform: translate(-50%);
 }
 
+.table-container{
+    width: 40%;
+}
+
+.tdlogin {
+    padding: 0 135px;
+}
