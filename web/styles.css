@@ -583,3 +583,27 @@ h2 {
 }
 
 /** { border: 1px solid red; }*/
+
+.input-container {
+    display: flex;
+    position: relative;
+    width: 30%;
+    left: 50%;
+    transform: translate(-50%);
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.singlesearch-container {
+    position: relative;
+    width: 70%;
+}
+
+.search-box {
+    position: relative;
+    margin-top: 8%;
+    left: 45%;
+    transform: translate(-50%);
+    width: 30%;
+}
+
