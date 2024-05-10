@@ -29,12 +29,12 @@
     </header>
     <body>
 <!--        final-->
-        <div class="success-container">
+        <div class="success-container2">
             <div class="header-container">
                 <h1>Welcome, <span id="user-customized">Student <%=session.getAttribute("USER_ID")%></span></h1>
             </div>
-            <div class="options-box">
-                <div class="login-container">
+            <div class="options-box2">
+                <div class="login-container2">
                     <div class="button-box">
                         <h2>Login</h2>
                         <form action="ViewRecords" method="post">
