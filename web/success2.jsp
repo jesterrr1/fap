@@ -52,6 +52,17 @@
                     </div>
                 </div>
             </div>
+            <div class="options-box">
+                <div class="login-container2">
+                        <form action="ViewRecords" method="post">
+                            <button type="submit" class="btn">Single View</button>
+                        </form>
+                        <form action="Logout" method="post">
+                            <button type="submit" class="btn">Logout</button>           
+                        </form>
+                </div>
+            </div>
+        </div>
         </div>
     </body>
     <footer>

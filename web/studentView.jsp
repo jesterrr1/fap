@@ -43,7 +43,7 @@
             <input type="submit" value="Logout">
         </form>
         <form action="GeneratePDF" method="post">
-            <input type="hidden" name="action" value="studentPDF">
+            <input type="hidden" name="action" value="expenseViewStudent">
             <input type="submit" value="Generate PDF">
         </form>
         <button onclick="window.location.href='success2.jsp'">Back to Student Log</button>

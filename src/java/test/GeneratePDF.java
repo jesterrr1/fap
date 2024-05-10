@@ -222,9 +222,11 @@ public class GeneratePDF extends HttpServlet {
                 //Footer(writer, loggedInUsername, document);
                 
                 document.close();
-            } else if (action.equals("studentPDF")) {
+            } else if (action.equals("expenseViewStudent")) {
                 String fileName = "ENROLLMENTLOGREPORT_" + timestamp + ".pdf";
 //                response.setHeader("Content-Disposition","attachment; filename=\"" + fileName + "\"");
+                
+            }else if(action.equals("loginViewStudent")){
                 
             }
             
