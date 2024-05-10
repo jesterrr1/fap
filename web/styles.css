@@ -336,6 +336,7 @@ h2 {
 #error-container{
     position: relative;
     padding: 20px;
+    margin-bottom: 120px;
 }
 
 #back-button {
@@ -493,10 +494,92 @@ h2 {
     margin: 25px 100px;
 }
 
-.button-box .btn {
-    margin-bottom: 10px; 
+.login-container .btn, .expense-container .btn {
+    margin-bottom: 10px;
 }
 
 .button-box btn:hover {
     color: #ffcc00;
 }
+
+.success-container{
+    position: relative;
+    width: 70%;
+}
+
+.options-box{
+    position: relative;
+    margin-top: 8%;
+    left: 20%;
+}
+
+.login-container{
+    width: 20%;
+    position: relative;
+    float: left;
+    top: 10%;
+
+}
+
+.expense-container {
+    width: 20%;
+    position: relative;
+    float: left;
+    left: 20%;
+}
+
+.logout-box {
+    position: absolute;
+    width: 30%;
+    margin-top: 15%;
+    left: 30%;
+    transform: translate(-50%);
+    
+}
+.header-container {
+    position: absolute;
+    left: 50%;
+    height: 80%;
+    transform: translate(-50%);
+}
+
+.options-box2{
+    position: relative;
+    margin-top: 8%;
+    left: 20%;
+}
+
+.login-container2{
+    width: 20%;
+    position: relative;
+    float: left;
+    left: 30%;
+    transform: translate(-50%);
+    margin-bottom: 2%;
+}
+
+.success-container2{
+    position: relative;
+    width: 70%;
+    top: 50%;
+}
+
+.login-container2 .btn {
+    margin-bottom: 10px;
+}
+
+.error-intstruction{
+    position: relative;
+    margin-bottom: 20px;
+    left: 75%;
+    transform: translate(-50%);
+}
+
+.back-container {
+    position: relative;
+    left:50%;
+    transform: translate(-50%);
+    margin-left: 7%;
+}
+
+/** { border: 1px solid red; }*/

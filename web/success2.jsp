@@ -28,16 +28,21 @@
         <h1><% out.print(getServletContext().getInitParameter("contextHeader5"));%></h1>
     </header>
     <body>
-        <div>
-            <h1>Welcome, <span id="user-customized">Student <%=session.getAttribute("USER_ID")%></span></h1>
-            <div class="button-box">
-                <form action="ViewRecords" method="post">
-                    <button type="submit" class="btn">Single View</button>
-                </form>
-                <form action="Logout" method="post">
-                    <button type="submit" class="btn">Logout</button>           
-                </form>
+        <div class="success-container2">
+            <div class="header-container">
+                <h1>Welcome, <span id="user-customized">Student <%=session.getAttribute("USER_ID")%></span></h1>  
             </div>
+            <div class="options-box">
+                <div class="login-container2">
+                        <form action="ViewRecords" method="post">
+                            <button type="submit" class="btn">Single View</button>
+                        </form>
+                        <form action="Logout" method="post">
+                            <button type="submit" class="btn">Logout</button>           
+                        </form>
+                </div>
+            </div>
+        </div>
         </div>
     </body>
     <footer>

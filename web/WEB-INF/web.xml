@@ -22,6 +22,10 @@
         <param-value>ERROR IN PASSWORD</param-value>
     </context-param>
     <context-param>
+        <param-name>contextErrorSession</param-name>
+        <param-value>EXCEPTION!</param-value>
+    </context-param>
+    <context-param>
         <param-name>contextHeader5</param-name>
         <param-value>STUDENT LOG</param-value>
     </context-param>
@@ -61,6 +65,10 @@
     <context-param>
         <param-name>contextFooter3</param-name>
         <param-value>, Inc. All Rights Reserved.</param-value>
+    </context-param>
+    <context-param>
+        <param-name>pdfHeader</param-name>
+        <param-value>ActiveLearning</param-value>
     </context-param>
     <!--Key-->
     <context-param>
