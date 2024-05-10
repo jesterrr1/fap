@@ -607,3 +607,9 @@ h2 {
     width: 30%;
 }
 
+.user-info {
+    position: relative;
+    left: 75%;
+    transform: translate(-50%);
+}
+

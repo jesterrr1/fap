@@ -10,23 +10,29 @@
             <h1><% out.print(getServletContext().getInitParameter("contextHeader7"));%></h1>
     </header>
     <body>
-        <h1>User Details</h1>
-        <p>Username: ${username}</p>
-        <p>User ID: ${userID}</p>
-        <p>Role: ${role}</p>
-        <form action="Logout" method="post">
-            <input type="submit" value="Logout">
-        </form>
-        <form action="GeneratePDF" method="post">
-            <input type="hidden" name="action" value="adminLoginSinglePDF">
-            <input type="hidden" name="username" value="${username}">
-            <input type="hidden" name="userID" value="${userID}">
-            <input type="hidden" name="role" value="${role}">
-            <input type="hidden" name="header" value="${initParam['contextHeader7']}">
-            <input type="submit" value="Generate PDF">
-        </form>
-        <button onclick="window.location.href='loginSearch.jsp'">Search Another</button>
-        <button onclick="window.location.href='success.jsp'">Back to Admin Log</button>
+        <div>
+            <h1><span id="user-customized">User Details</span></h1>
+            <div class="user-info">
+                <p>Username: ${username}</p>
+                <p>User ID: ${userID}</p>
+                <p>Role: ${role}</p>
+            </div>
+            <div class="control-container">
+                <form action="Logout" method="post">
+                    <input type="submit" value="Logout">
+                </form>
+                <form action="GeneratePDF" method="post">
+                    <input type="hidden" name="action" value="adminLoginSinglePDF">
+                    <input type="hidden" name="username" value="${username}">
+                    <input type="hidden" name="userID" value="${userID}">
+                    <input type="hidden" name="role" value="${role}">
+                    <input type="hidden" name="header" value="${initParam['contextHeader7']}">
+                    <input type="submit" value="Generate PDF">
+                </form>
+                <button onclick="window.location.href='loginSearch.jsp'">Search Another</button>
+                <button onclick="window.location.href='success.jsp'">Back to Admin Log</button>
+            </div>
+        </div>
     </body>
     <footer>
         <% out.print(getServletContext().getInitParameter("contextFooter1"));%>
