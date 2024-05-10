@@ -19,6 +19,10 @@
         </form>
         <form action="GeneratePDF" method="post">
             <input type="hidden" name="action" value="adminLoginSinglePDF">
+            <input type="hidden" name="username" value="${username}">
+            <input type="hidden" name="userID" value="${userID}">
+            <input type="hidden" name="role" value="${role}">
+            <input type="hidden" name="header" value="${initParam['contextHeader7']}">
             <input type="submit" value="Generate PDF">
         </form>
         <button onclick="window.location.href='loginSearch.jsp'">Search Another</button>

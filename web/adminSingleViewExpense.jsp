@@ -13,7 +13,7 @@
     </header>
     <body>
         <h1>Enrollment Log</h1>
-        <h2>Student ID#: <%= request.getAttribute("userID") %></h2>
+        <h2>User ID#: <%= request.getAttribute("userID") %></h2>
         <table border="1">
             <tr>
                 <th>Date</th>
@@ -44,6 +44,7 @@
         </form>
         <form action="GeneratePDF" method="post">
             <input type="hidden" name="action" value="adminExpenseSinglePDF">
+            <input type="hidden" name="userID" value="<%= request.getAttribute("userID") %>">           
             <input type="submit" value="Generate PDF">
         </form>
         <button onclick="window.location.href='expenseSearch.jsp'">Search Another</button>

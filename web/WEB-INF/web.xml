@@ -27,7 +27,7 @@
     </context-param>
     <context-param>
         <param-name>contextHeader6</param-name>
-        <param-value>STUDENT VIEW</param-value>
+        <param-value>STUDENT ENROLLMENT LOG VIEW</param-value>
     </context-param>
     <context-param>
         <param-name>contextHeader7</param-name>
@@ -49,6 +49,10 @@
         <param-name>contextHeader11</param-name>
         <param-value>ENROLLMENT LOGS</param-value>
     </context-param>
+    <context-param>
+        <param-name>contextHeader12</param-name>
+        <param-value>STUDENT LOGIN VIEW</param-value>
+    </context-param>
     <!--Footer-->
     <context-param>
         <param-name>contextFooter1</param-name>
@@ -61,6 +65,10 @@
     <context-param>
         <param-name>contextFooter3</param-name>
         <param-value>, Inc. All Rights Reserved.</param-value>
+    </context-param>
+    <context-param>
+        <param-name>pdfHeader</param-name>
+        <param-value>ActiveLearning</param-value>
     </context-param>
     <!--Key-->
     <context-param>

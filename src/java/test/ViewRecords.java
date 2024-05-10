@@ -59,10 +59,10 @@ public class ViewRecords extends HttpServlet {
 
                 HttpSession session = request.getSession();
                 String loggedInUserID = (String) session.getAttribute("USER_ID");
-                String role = (String) request.getSession().getAttribute("role");
+                String loggedInRole = (String) request.getSession().getAttribute("role");
 
                 //If-else statement to determine if user is admin or guest
-                if("admin".endsWith(role)){ //user is admin role
+                if("admin".endsWith(loggedInRole)){ //user is admin role
                     String action = request.getParameter("action");
 
                     //LOGIN DB
@@ -82,7 +82,7 @@ public class ViewRecords extends HttpServlet {
                             if (rs.next()) {
                                 // Username exists, proceed with search functionality
                                 String userID = rs.getString("USER_ID");
-                                //String role = rs.getString("role");
+                                String role = rs.getString("role");
 
                                 // Set the retrieved values as request attributes
                                 request.setAttribute("username", username);
@@ -147,8 +147,9 @@ public class ViewRecords extends HttpServlet {
                     }
                     else if ("searchExpense".equals(action)) {
                         String username = request.getParameter("username");
-                        Connection loginConn = null;
-                        Connection expenseConn = null;
+                        Connection loginConn = null; //logindb
+                        Connection expenseConn = null; //expense db
+                        
                         try {
                             // Establish connection to the Login Database (Derby)
                             Class.forName(DBdriver);
@@ -160,13 +161,12 @@ public class ViewRecords extends HttpServlet {
                             rs = stmt.executeQuery();
 
                             if (rs.next()) {
-                                int userID = rs.getInt("USER_ID");
+                                int userID = rs.getInt("USER_ID");                             
                                 if(userID <= 20){
                                     //User is an admin, display message and redirect
                                     request.setAttribute("errorMessage","No enrollment expenses will be shown as the USER_ID is for admins.");
                                     request.getRequestDispatcher("/expenseSearch.jsp").forward(request, response);
                                 }else{
-
                                     // Establish connection to the Expenses Database (MSSQL)
                                     Class.forName(ExpDBdriver);
                                     expenseConn = DriverManager.getConnection(ExpDBurl, ExpDBusername, ExpDBpassword);
@@ -259,29 +259,56 @@ public class ViewRecords extends HttpServlet {
                             e.printStackTrace();
                         }
                     }
-                }else if("guest".equals(role)){ //user is guest role
-                    //Prepare a SQL query
-                    String query = "SELECT Date, Amount, PaymentMethod, Balance, TransactionID FROM dbo.EXPENSE_LOGS WHERE UserID = ?";
-                    stmt = conn.prepareStatement(query);
-                    stmt.setString(1, loggedInUserID);
+                }else if("guest".equals(loggedInRole)){ //user is guest role
+                    String action = request.getParameter("action");
+                    if("loginViewStudent".equals(action)){ //Login Single View Button
+                        request.getRequestDispatcher("/guestSingleViewLogin.jsp").forward(request, response);
+                        
+//                        String username = request.getParameter("username");
+//                        // Query the database to check if the username exists
+//                        Class.forName(DBdriver);
+//                        conn = DriverManager.getConnection(DBurl, DBusername, DBpassword);
+//                        stmt = conn.prepareStatement("SELECT role FROM APP.LOGIN_INFO WHERE username = ?");
+//                        stmt.setString(1, username);
+//                        rs = stmt.executeQuery();
+//
+//                        if (rs.next()) {
+//                            // Username exists, proceed with search functionality
+//                            String role = rs.getString("role");
+//
+//                            // Set the retrieved values as request attributes
+//                            request.setAttribute("username", username);
+//                            request.setAttribute("role", role);
+//
+//                            // Forward the request to adminSingleViewLogin.jsp
+//                            request.getRequestDispatcher("/guestSingleViewLogin.jsp").forward(request, response);
+//                        }
+                        
+              
+                    } else if("expenseViewStudent".equals(action)){
+                        //Prepare a SQL query
+                        String query = "SELECT Date, Amount, PaymentMethod, Balance, TransactionID FROM dbo.EXPENSE_LOGS WHERE UserID = ?";
+                        stmt = conn.prepareStatement(query);
+                        stmt.setString(1, loggedInUserID);
 
-                    //Execute the query and get the result
-                    rs = stmt.executeQuery();
+                        //Execute the query and get the result
+                        rs = stmt.executeQuery();
 
-                    List<Map<String,String>> expenseLogs = new ArrayList<>();
-                    while(rs.next()){
-                        Map<String, String> log = new HashMap<>();
-                        log.put("Date", rs.getString("Date"));
-                        log.put("Amount", rs.getString("Amount"));
-                        log.put("PaymentMethod", rs.getString("PaymentMethod"));
-                        log.put("Balance", rs.getString("Balance"));
-                        log.put("TransactionID", rs.getString("TransactionID"));
-                        expenseLogs.add(log);
+                        List<Map<String,String>> expenseLogs = new ArrayList<>();
+                        while(rs.next()){
+                            Map<String, String> log = new HashMap<>();
+                            log.put("Date", rs.getString("Date"));
+                            log.put("Amount", rs.getString("Amount"));
+                            log.put("PaymentMethod", rs.getString("PaymentMethod"));
+                            log.put("Balance", rs.getString("Balance"));
+                            log.put("TransactionID", rs.getString("TransactionID"));
+                            expenseLogs.add(log);
+                        }
+
+                        session.setAttribute("expenseLogs",expenseLogs);            
+                        RequestDispatcher dispatcher = request.getRequestDispatcher("/studentView.jsp");
+                        dispatcher.forward(request,response);
                     }
-
-                    session.setAttribute("expenseLogs",expenseLogs);            
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/studentView.jsp");
-                    dispatcher.forward(request,response);
                 }
             }catch(ClassNotFoundException | SQLException e){
                     e.printStackTrace();

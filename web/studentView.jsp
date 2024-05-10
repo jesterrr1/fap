@@ -6,11 +6,11 @@
     <head>
         <link rel="stylesheet" href="styles.css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>STUDENT VIEW</title>
+        <title>STUDENT ENROLLMENT LOG VIEW</title>
     </head>
     <header>
             <h1><% out.print(getServletContext().getInitParameter("contextHeader6"));%></h1>
-        </header>
+    </header>
     <body>
         <h1>Expense Logs</h1>
         <h2>Student ID#: <%= session.getAttribute("USER_ID") %></h2>

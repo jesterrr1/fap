@@ -29,6 +29,7 @@
                 </tr>
                 <%
                     List<Map<String, String>> loginRecords = (List<Map<String, String>>) request.getAttribute("loginRecords");
+                    session.setAttribute("loginRecords", loginRecords);  // Store loginRecords in the session
                     String loggedInUser = (String) session.getAttribute("username");
                     for (Map<String, String> record : loginRecords) {
                         String username = record.get("username");
