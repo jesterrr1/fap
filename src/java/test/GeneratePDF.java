@@ -71,29 +71,32 @@ public class GeneratePDF extends HttpServlet {
                              
             if (action.equals("adminLoginSinglePDF")) {
                 String fileName = "LOGINREPORT_" + timestamp + ".pdf";
-                //response.setHeader("Content-Disposition","attachment; filename=\"" + fileName + "\""); //Download
-                
-                Font detailFont = FontFactory.getFont(FontFactory.HELVETICA,16, Font.NORMAL);
-                                
-                //Title
-                Font titleFont = FontFactory.getFont(FontFactory.HELVETICA,22,Font.BOLDITALIC);
-                Paragraph title = new Paragraph("Login Report",titleFont);
-                title.setAlignment(Element.ALIGN_CENTER);
-                document.add(title);                              
-                       
-                //add a line break for better formatting
+                response.setHeader("Content-Disposition","attachment; filename=\"" + fileName + "\""); //Download               
+                Font detailFont = FontFactory.getFont(FontFactory.HELVETICA,45, Font.NORMAL);
+                Font titleFont = FontFactory.getFont(FontFactory.HELVETICA,50,Font.BOLDITALIC);
+//                //add a line break for better formatting
+                document.add(new Paragraph("\n"));
+                document.add(new Paragraph("\n"));
+                document.add(new Paragraph("\n"));
                 document.add(new Paragraph("\n"));
                 
                 //add username, userID, and role to the document
                 String username = request.getParameter("username");
                 String userID = request.getParameter("userID");
                 String role = request.getParameter("role");
+                Paragraph titlePara = new Paragraph("Login Report",titleFont);
+                titlePara.setSpacingAfter(20);
+                titlePara.setAlignment(Element.ALIGN_CENTER);
                 Paragraph usernamePara = new Paragraph("Username: " + username, detailFont);
                 usernamePara.setAlignment(Element.ALIGN_CENTER); // Center align Username
+                usernamePara.setSpacingAfter(15);
                 Paragraph userIDPara = new Paragraph("User ID: " + userID, detailFont);
                 userIDPara.setAlignment(Element.ALIGN_CENTER); // Center align User ID
+                userIDPara.setSpacingAfter(15);
                 Paragraph rolePara = new Paragraph("Role: " + role, detailFont);
-                rolePara.setAlignment(Element.ALIGN_CENTER); // Center align Role               
+                rolePara.setAlignment(Element.ALIGN_CENTER); // Center align Role 
+                rolePara.setSpacingAfter(15);
+                document.add(titlePara);
                 document.add(usernamePara);
                 document.add(userIDPara);
                 document.add(rolePara); 

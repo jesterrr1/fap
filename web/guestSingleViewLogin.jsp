@@ -17,7 +17,7 @@
         <h2>Student ID#: <%= session.getAttribute("USER_ID") %></h2>
         <p>Username: <%= session.getAttribute("username") %></p>
         <p>Role: <%= session.getAttribute("role") %></p> 
-        <button onclick="window.location.href='success2.jsp'">Back to Admin Log</button>
+        <button onclick="window.location.href='success2.jsp'">Back to Student Log</button>
         <form action="Logout" method="post">
             <input type="submit" value="Logout">
         </form>
