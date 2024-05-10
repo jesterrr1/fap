@@ -262,28 +262,7 @@ public class ViewRecords extends HttpServlet {
                 }else if("guest".equals(loggedInRole)){ //user is guest role
                     String action = request.getParameter("action");
                     if("loginViewStudent".equals(action)){ //Login Single View Button
-                        request.getRequestDispatcher("/guestSingleViewLogin.jsp").forward(request, response);
-                        
-//                        String username = request.getParameter("username");
-//                        // Query the database to check if the username exists
-//                        Class.forName(DBdriver);
-//                        conn = DriverManager.getConnection(DBurl, DBusername, DBpassword);
-//                        stmt = conn.prepareStatement("SELECT role FROM APP.LOGIN_INFO WHERE username = ?");
-//                        stmt.setString(1, username);
-//                        rs = stmt.executeQuery();
-//
-//                        if (rs.next()) {
-//                            // Username exists, proceed with search functionality
-//                            String role = rs.getString("role");
-//
-//                            // Set the retrieved values as request attributes
-//                            request.setAttribute("username", username);
-//                            request.setAttribute("role", role);
-//
-//                            // Forward the request to adminSingleViewLogin.jsp
-//                            request.getRequestDispatcher("/guestSingleViewLogin.jsp").forward(request, response);
-//                        }
-                        
+                        request.getRequestDispatcher("/guestSingleViewLogin.jsp").forward(request, response);                       
               
                     } else if("expenseViewStudent".equals(action)){
                         //Prepare a SQL query

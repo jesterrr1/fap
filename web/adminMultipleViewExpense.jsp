@@ -10,31 +10,21 @@
             <title>ENROLLMENT LOGS</title>
             <style>
                 .scrollable-table {
-                    width: 80%;
-                    max-height: 400px;
-                    overflow-y: auto;
-                    -ms-overflow-style: -ms-autohiding-scrollbar;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                }
-
-                .scrollable-table>thead,
-                .scrollable-table>tbody {
-                    width: 100%;
-                }
+                width: 100%;
+                max-height: 400px;
+                overflow-y: auto;
+                -ms-overflow-style: -ms-autohiding-scrollbar;
+            }
             </style>
         </head>
         <header>
             <h1>
                 <% out.print(getServletContext().getInitParameter("contextHeader11"));%>
             </h1>
-        </header>
-        
+        </header>        
         <body>
-            <div class="scrollable-table">
-                <table class="user-table">
+            <div  class="scrollable-table">
+                <table>
                     <tr>
                         <th>User ID</th>
                         <th>Date</th>

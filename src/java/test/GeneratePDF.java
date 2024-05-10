@@ -28,9 +28,6 @@ import javax.servlet.http.HttpSession;
 
 public class GeneratePDF extends HttpServlet {
     
-    private int currentPageNumber = 1; // Keep track of current page number
-    private int totalPageNumber = 0; // Total pages
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/pdf");
@@ -38,7 +35,6 @@ public class GeneratePDF extends HttpServlet {
         String action = request.getParameter("action");
         HttpSession session = request.getSession();
         String loggedInUsername = (String) session.getAttribute("username");
-        //String loggedInRole = (String) session.getAttribute("role");
         
         //Get the current date and time for FILENAME
         LocalDateTime now = LocalDateTime.now();
@@ -55,13 +51,10 @@ public class GeneratePDF extends HttpServlet {
         Document document = new Document(PageSize.A4.rotate()); //Create new document in landscape form
         try{
             PdfWriter writer = PdfWriter.getInstance(document, response.getOutputStream()); //Initialize PDF writer
-            //writer.setPageEvent(new PageNumber()); //Set page event for pagination
-            //HeaderFooterPageEvent event = new HeaderFooterPageEvent(loggedInUsername);
+            writer.setPageEvent(new Footer(loggedInUsername));
             
             document.open(); //Open the document
 
-            //Add date and time to header
-            //addDateTimeToHeader(document,date,time);
                              
             if (action.equals("adminLoginSinglePDF")) {
                 String fileName = "LOGINREPORT_" + timestamp + ".pdf";
@@ -91,10 +84,7 @@ public class GeneratePDF extends HttpServlet {
                 document.add(usernamePara);
                 document.add(userIDPara);
                 document.add(rolePara); 
-                
-                //Add footer
-                //Footer(writer, loggedInUsername, document);
-                
+                  
                 document.close();
             } else if (action.equals("adminLoginMultiplePDF")) {               
                 String fileName = "LOGINREPORT_" + timestamp + ".pdf";
@@ -116,20 +106,109 @@ public class GeneratePDF extends HttpServlet {
                 
                 List<Map<String, String>> loginRecords = (List<Map<String, String>>) request.getSession().getAttribute("loginRecords");
                 for (Map<String, String> record : loginRecords) {
-                    table.addCell(record.get("username"));
-                    table.addCell(record.get("role"));
+                    String username = record.get("username");
+                    String role = record.get("role");                    
+                    //Check if the username matches the logged-in username
+                    if(loggedInUsername != null && loggedInUsername.equals(username)){
+                        //Append asterisk(*) to the username
+                        username += "*";
+                    }
+                    table.addCell(record.get(username));
+                    table.addCell(record.get(role));
                 }
-
                 document.add(table);                
-                
-                //Add footer
-                //Footer(writer, loggedInUsername, document);
-                
+
                 document.close();
             } else if (action.equals("adminExpenseSinglePDF")) {
                 String fileName = "ENROLLMENTLOGREPORT_" + timestamp + ".pdf";
 //                response.setHeader("Content-Disposition","attachment; filename=\"" + fileName + "\""); //Download
                 String userID = request.getParameter("userID");
+                
+                Font detailFont = FontFactory.getFont(FontFactory.HELVETICA,16, Font.NORMAL);
+                                
+                //Title
+                Font titleFont = FontFactory.getFont(FontFactory.HELVETICA,22,Font.BOLDITALIC);
+                Paragraph title = new Paragraph("Enrollment Log Report",titleFont);
+                title.setAlignment(Element.ALIGN_CENTER);
+                document.add(title);                              
+                       
+                //add a line break for better formatting
+                document.add(new Paragraph("\n"));
+                
+                //Add the corresponding user ID of the user 
+                
+                Paragraph studIDPara = new Paragraph("User ID: " + userID, detailFont);
+                studIDPara.setAlignment(Element.ALIGN_CENTER); // Center align Student ID
+                document.add(studIDPara);
+                
+                //add a line break for better formatting
+                document.add(new Paragraph("\n"));
+                
+                //Get the expenseLogs from the session
+                List<Map<String,String>> expenseLogs = (List<Map<String,String>>)session.getAttribute("expenseLogs");
+                
+                if(expenseLogs != null){
+                    PdfPTable table = new PdfPTable(5); // Create a table with five columns
+                    table.setWidthPercentage(100); // Set width to 100% of page
+                    table.addCell("Date");
+                    table.addCell("Amount");
+                    table.addCell("Payment Method");
+                    table.addCell("Balance");
+                    table.addCell("Transaction ID");
+
+                    for(Map<String,String> log : expenseLogs){
+                        // Add each record to the table
+                        table.addCell(log.get("Date"));
+                        table.addCell(log.get("Amount"));
+                        table.addCell(log.get("PaymentMethod"));
+                        table.addCell(log.get("Balance"));
+                        table.addCell(log.get("TransactionID"));
+                    }
+
+                    document.add(table); // Add table to document
+                }
+                               
+                document.close();
+            } else if (action.equals("adminExpenseMultiplePDF")) {
+                String fileName = "ENROLLMENTLOGREPORT_" + timestamp + ".pdf";
+                response.setHeader("Content-Disposition","attachment; filename=\"" + fileName + "\""); //Download
+                Font detailFont = FontFactory.getFont(FontFactory.HELVETICA,16, Font.NORMAL);
+                                                
+                //Title
+                Font titleFont = FontFactory.getFont(FontFactory.HELVETICA,22,Font.BOLDITALIC);
+                Paragraph title = new Paragraph("Enrollment Log Report",titleFont);
+                title.setAlignment(Element.ALIGN_CENTER);
+                document.add(title);                              
+                       
+                //add a line break for better formatting
+                document.add(new Paragraph("\n"));
+                
+                PdfPTable table = new PdfPTable(6); //2 columns
+                table.addCell("User ID");
+                table.addCell("Date");
+                table.addCell("Amount");
+                table.addCell("Payment Method");
+                table.addCell("Balance");
+                table.addCell("TransactionID");
+                
+                List<Map<String, String>> expenseLogs = (List<Map<String, String>>) request.getSession().getAttribute("expenseLogs");
+                
+                for (Map<String, String> log : expenseLogs) {
+                    table.addCell(log.get("UserID"));
+                    table.addCell(log.get("Date"));
+                    table.addCell(log.get("Amount"));
+                    table.addCell(log.get("PaymentMethod"));
+                    table.addCell(log.get("Balance"));
+                    table.addCell(log.get("TransactionID"));
+                }
+
+                document.add(table);                
+                
+                document.close();
+            } else if (action.equals("expenseViewStudent")) {
+                String fileName = "ENROLLMENTLOGREPORT_" + timestamp + ".pdf";
+//                response.setHeader("Content-Disposition","attachment; filename=\"" + fileName + "\"");
+                String userID = request.getParameter("USER_ID");
                 
 
                 Font detailFont = FontFactory.getFont(FontFactory.HELVETICA,16, Font.NORMAL);
@@ -175,59 +254,36 @@ public class GeneratePDF extends HttpServlet {
 
                     document.add(table); // Add table to document
                 }
-                
-                //Add footer
-                //Footer(writer, loggedInUsername, document);
-                
-                document.close();
-            } else if (action.equals("adminExpenseMultiplePDF")) {
-                String fileName = "ENROLLMENTLOGREPORT_" + timestamp + ".pdf";
-                response.setHeader("Content-Disposition","attachment; filename=\"" + fileName + "\""); //Download
-                Font detailFont = FontFactory.getFont(FontFactory.HELVETICA,16, Font.NORMAL);
-                
-                //Add header
-                addDateTimeToHeader(document, date, time);
                                 
+                document.close();                               
+            }else if(action.equals("loginViewStudent")){
+                String fileName = "LOGINREPORT_" + timestamp + ".pdf";
+//                response.setHeader("Content-Disposition","attachment; filename=\"" + fileName + "\"");
+                Font detailFont = FontFactory.getFont(FontFactory.HELVETICA,16, Font.NORMAL);
+                String userID = request.getParameter("USER_ID");
+                String username = request.getParameter("username");
+                String role = request.getParameter("role");
+                
                 //Title
                 Font titleFont = FontFactory.getFont(FontFactory.HELVETICA,22,Font.BOLDITALIC);
-                Paragraph title = new Paragraph("Enrollment Log Report",titleFont);
+                Paragraph title = new Paragraph("Login Report",titleFont);
                 title.setAlignment(Element.ALIGN_CENTER);
                 document.add(title);                              
                        
                 //add a line break for better formatting
                 document.add(new Paragraph("\n"));
                 
-                PdfPTable table = new PdfPTable(6); //2 columns
-                table.addCell("User ID");
-                table.addCell("Date");
-                table.addCell("Amount");
-                table.addCell("Payment Method");
-                table.addCell("Balance");
-                table.addCell("TransactionID");
+                //add username, userID, and role to the document
                 
-                List<Map<String, String>> expenseLogs = (List<Map<String, String>>) request.getSession().getAttribute("expenseLogs");
-                
-                for (Map<String, String> log : expenseLogs) {
-                    table.addCell(log.get("UserID"));
-                    table.addCell(log.get("Date"));
-                    table.addCell(log.get("Amount"));
-                    table.addCell(log.get("PaymentMethod"));
-                    table.addCell(log.get("Balance"));
-                    table.addCell(log.get("TransactionID"));
-                }
-
-                document.add(table);                
-                
-                //Add footer
-                //Footer(writer, loggedInUsername, document);
-                
-                document.close();
-            } else if (action.equals("expenseViewStudent")) {
-                String fileName = "ENROLLMENTLOGREPORT_" + timestamp + ".pdf";
-//                response.setHeader("Content-Disposition","attachment; filename=\"" + fileName + "\"");
-                
-            }else if(action.equals("loginViewStudent")){
-                
+                Paragraph usernamePara = new Paragraph("Username: " + username, detailFont);
+                usernamePara.setAlignment(Element.ALIGN_CENTER); // Center align Username
+                Paragraph userIDPara = new Paragraph("User ID: " + userID, detailFont);
+                userIDPara.setAlignment(Element.ALIGN_CENTER); // Center align User ID
+                Paragraph rolePara = new Paragraph("Role: " + role, detailFont);
+                rolePara.setAlignment(Element.ALIGN_CENTER); // Center align Role               
+                document.add(usernamePara);
+                document.add(userIDPara);
+                document.add(rolePara);
             }
             
             document.close(); //close the document
@@ -253,83 +309,26 @@ public class GeneratePDF extends HttpServlet {
         return "Short description";
     }
     
-    //Set footer
-    private void Footer(PdfWriter writer, String loggedInUsername, Document document) {
-        PdfPTable footerTable = new PdfPTable(1);
-        footerTable.setWidthPercentage(100);
-        footerTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+    class Footer extends PdfPageEventHelper {
+        String loggedInUsername;
 
-        // Left side: Username
-        PdfPCell usernameCell = new PdfPCell(new Phrase(loggedInUsername, FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 12)));
-        usernameCell.setBorder(Rectangle.NO_BORDER);
-        footerTable.addCell(usernameCell);
-
-//        // Right side: Page number
-//        PdfPCell pageNumberCell = new PdfPCell(new Paragraph("Page " + currentPageNumber + " of " + totalPageNumber, FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 12)));
-//        pageNumberCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-//        pageNumberCell.setBorder(Rectangle.NO_BORDER);
-//        footerTable.addCell(pageNumberCell);
-
-        // Set the footer table position to be at the bottom of the page
-        footerTable.setTotalWidth(document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin());
-        footerTable.writeSelectedRows(0, -1, document.leftMargin(), document.bottomMargin(), writer.getDirectContent());
-    }
-    
-    
-    // Add method to add date and time in the upper right corner and pdfHeader in upper left corner
-    private void addDateTimeToHeader(Document document, String date, String time) throws DocumentException {
-        Font headerFont = FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL);
-        
-        String pdfHeader = getServletContext().getInitParameter("pdfHeader");
-        
-        PdfPTable table = new PdfPTable(2); //Create a table with two columns
-        table.setWidthPercentage(100); //set width to 100% of page
-        table.getDefaultCell().setBorder(Rectangle.NO_BORDER); //Remove Borders
-        
-        PdfPCell leftCell = new PdfPCell(new Phrase(pdfHeader, headerFont));
-        leftCell.setBorder(Rectangle.NO_BORDER);
-        leftCell.setHorizontalAlignment(Element.ALIGN_LEFT);
-        
-        PdfPCell rightCell = new PdfPCell(new Phrase("Date: " + date + " " + time, headerFont));
-        rightCell.setBorder(Rectangle.NO_BORDER);
-        rightCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        
-        table.addCell(leftCell);
-        table.addCell(rightCell);
-
-        document.add(table); // Add table to document instead of separate paragraphs
-        
-    }
-    
-    class HeaderFooterPageEvent extends PdfPageEventHelper {
-        private String loggedInUsername;
-
-        public HeaderFooterPageEvent(String loggedInUsername) {
+        Footer(String loggedInUsername) {
             this.loggedInUsername = loggedInUsername;
         }
 
-        @Override
         public void onEndPage(PdfWriter writer, Document document) {
-            // Add header
-            PdfPTable headerTable = new PdfPTable(1);
-            headerTable.setWidthPercentage(100);
-            headerTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-            PdfPCell headerCell = new PdfPCell(new Phrase("Your Header Content Here"));
-            headerCell.setBorder(Rectangle.NO_BORDER);
-            headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            headerTable.addCell(headerCell);
-            headerTable.setTotalWidth(document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin());
-            headerTable.writeSelectedRows(0, -1, document.leftMargin(), document.top() + 10, writer.getDirectContent());
-            // Add footer
-            PdfPTable footerTable = new PdfPTable(1);
-            footerTable.setWidthPercentage(100);
-            footerTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-            PdfPCell usernameCell = new PdfPCell(new Phrase(loggedInUsername, FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 12)));
-            usernameCell.setBorder(Rectangle.NO_BORDER);
-            footerTable.addCell(usernameCell);
-            footerTable.setTotalWidth(document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin());
-            footerTable.writeSelectedRows(0, -1, document.leftMargin(), document.bottomMargin(), writer.getDirectContent());
+            PdfPTable footer = new PdfPTable(1);
+            footer.setWidthPercentage(100);
+            footer.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+
+            PdfPCell cell = new PdfPCell(new Phrase(loggedInUsername, FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 12)));
+            cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            cell.setBorder(Rectangle.NO_BORDER);
+            footer.addCell(cell);
+
+            footer.setTotalWidth(document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin());
+            footer.writeSelectedRows(0, -1, document.leftMargin(), document.bottomMargin(), writer.getDirectContent());
         }
     }
-    
+             
 }

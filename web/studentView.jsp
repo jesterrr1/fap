@@ -44,6 +44,7 @@
         </form>
         <form action="GeneratePDF" method="post">
             <input type="hidden" name="action" value="expenseViewStudent">
+            <input type="hidden" name="USER_ID" value="<%= session.getAttribute("USER_ID") %>">
             <input type="submit" value="Generate PDF">
         </form>
         <button onclick="window.location.href='success2.jsp'">Back to Student Log</button>
