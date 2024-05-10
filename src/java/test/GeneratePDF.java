@@ -143,46 +143,50 @@ public class GeneratePDF extends HttpServlet {
                 String fileName = "ENROLLMENTLOGREPORT_" + timestamp + ".pdf";
 //                response.setHeader("Content-Disposition","attachment; filename=\"" + fileName + "\""); //Download
                 String userID = request.getParameter("userID");
+                document.add(new Paragraph("\n"));
+                document.add(new Paragraph("\n"));
                 
-                Font detailFont = FontFactory.getFont(FontFactory.HELVETICA,16, Font.NORMAL);
+                Font detailFont = FontFactory.getFont(FontFactory.HELVETICA,35, Font.NORMAL);
                                 
                 //Title
-                Font titleFont = FontFactory.getFont(FontFactory.HELVETICA,22,Font.BOLDITALIC);
+                Font titleFont = FontFactory.getFont(FontFactory.HELVETICA,50,Font.BOLDITALIC);
                 Paragraph title = new Paragraph("Enrollment Log Report",titleFont);
                 title.setAlignment(Element.ALIGN_CENTER);
-                document.add(title);                              
-                       
-                //add a line break for better formatting
+                document.add(title); 
                 document.add(new Paragraph("\n"));
                 
                 //Add the corresponding user ID of the user 
-                
-                Paragraph studIDPara = new Paragraph("User ID: " + userID, detailFont);
+                Paragraph studIDPara = new Paragraph("User ID: " + userID, titleFont);
                 studIDPara.setAlignment(Element.ALIGN_CENTER); // Center align Student ID
                 document.add(studIDPara);
-                
-                //add a line break for better formatting
                 document.add(new Paragraph("\n"));
+                document.add(new Paragraph("\n"));
+                
+                Font recordFont = FontFactory.getFont(FontFactory.HELVETICA,20,Font.NORMAL);
                 
                 //Get the expenseLogs from the session
                 List<Map<String,String>> expenseLogs = (List<Map<String,String>>)session.getAttribute("expenseLogs");
                 
                 if(expenseLogs != null){
+                    Font headerFont = FontFactory.getFont(FontFactory.HELVETICA, 25, Font.BOLD); // Adjust the size as needed
+
                     PdfPTable table = new PdfPTable(5); // Create a table with five columns
                     table.setWidthPercentage(100); // Set width to 100% of page
-                    table.addCell("Date");
-                    table.addCell("Amount");
-                    table.addCell("Payment Method");
-                    table.addCell("Balance");
-                    table.addCell("Transaction ID");
+
+                    // Add each header to the table with the new font
+                    table.addCell(new Phrase("Date", headerFont));
+                    table.addCell(new Phrase("Amount", headerFont));
+                    table.addCell(new Phrase("Payment Method", headerFont));
+                    table.addCell(new Phrase("Balance", headerFont));
+                    table.addCell(new Phrase("Transaction ID", headerFont));
 
                     for(Map<String,String> log : expenseLogs){
                         // Add each record to the table
-                        table.addCell(log.get("Date"));
-                        table.addCell(log.get("Amount"));
-                        table.addCell(log.get("PaymentMethod"));
-                        table.addCell(log.get("Balance"));
-                        table.addCell(log.get("TransactionID"));
+                        table.addCell(new Phrase(log.get("Date"),recordFont));
+                        table.addCell(new Phrase(log.get("Amount"),recordFont));
+                        table.addCell(new Phrase(log.get("PaymentMethod"),recordFont));
+                        table.addCell(new Phrase(log.get("Balance"),recordFont));
+                        table.addCell(new Phrase(log.get("TransactionID"),recordFont));
                     }
 
                     document.add(table); // Add table to document
@@ -193,7 +197,7 @@ public class GeneratePDF extends HttpServlet {
                 document.close();
             } else if (action.equals("adminExpenseMultiplePDF")) {
                 String fileName = "ENROLLMENTLOGREPORT_" + timestamp + ".pdf";
-                //response.setHeader("Content-Disposition","attachment; filename=\"" + fileName + "\""); //Download
+                response.setHeader("Content-Disposition","attachment; filename=\"" + fileName + "\""); //Download
                 Font detailFont = FontFactory.getFont(FontFactory.HELVETICA,16, Font.NORMAL);
                                                 
                 //Title
@@ -233,47 +237,45 @@ public class GeneratePDF extends HttpServlet {
                 String fileName = "ENROLLMENTLOGREPORT_" + timestamp + ".pdf";
 //                response.setHeader("Content-Disposition","attachment; filename=\"" + fileName + "\"");
                 String userID = request.getParameter("USER_ID");
+                document.add(new Paragraph("\n"));
+                document.add(new Paragraph("\n"));
+                Font detailFont = FontFactory.getFont(FontFactory.HELVETICA,35, Font.NORMAL);
+                Font titleFont = FontFactory.getFont(FontFactory.HELVETICA,50,Font.BOLDITALIC);
                 
-
-                Font detailFont = FontFactory.getFont(FontFactory.HELVETICA,16, Font.NORMAL);
-                                
-                //Title
-                Font titleFont = FontFactory.getFont(FontFactory.HELVETICA,22,Font.BOLDITALIC);
                 Paragraph title = new Paragraph("Enrollment Log Report",titleFont);
                 title.setAlignment(Element.ALIGN_CENTER);
-                document.add(title);                              
-                       
-                //add a line break for better formatting
+                document.add(title);
                 document.add(new Paragraph("\n"));
                 
                 //Add the corresponding user ID of the user 
-                
-                Paragraph studIDPara = new Paragraph("User ID: " + userID, detailFont);
+                Paragraph studIDPara = new Paragraph("User ID: " + userID, titleFont);
                 studIDPara.setAlignment(Element.ALIGN_CENTER); // Center align Student ID
                 document.add(studIDPara);
-                
-                //add a line break for better formatting
                 document.add(new Paragraph("\n"));
+                document.add(new Paragraph("\n"));
+                
+                Font recordFont = FontFactory.getFont(FontFactory.HELVETICA,20,Font.NORMAL);
                 
                 //Get the expenseLogs from the session
                 List<Map<String,String>> expenseLogs = (List<Map<String,String>>)session.getAttribute("expenseLogs");
                 
                 if(expenseLogs != null){
+                    Font headerFont = FontFactory.getFont(FontFactory.HELVETICA, 25, Font.BOLD); // Adjust the size as needed
                     PdfPTable table = new PdfPTable(5); // Create a table with five columns
                     table.setWidthPercentage(100); // Set width to 100% of page
-                    table.addCell("Date");
-                    table.addCell("Amount");
-                    table.addCell("Payment Method");
-                    table.addCell("Balance");
-                    table.addCell("Transaction ID");
+                    table.addCell(new Phrase("Date", headerFont));
+                    table.addCell(new Phrase("Amount", headerFont));
+                    table.addCell(new Phrase("Payment Method", headerFont));
+                    table.addCell(new Phrase("Balance", headerFont));
+                    table.addCell(new Phrase("Transaction ID", headerFont));
 
                     for(Map<String,String> log : expenseLogs){
                         // Add each record to the table
-                        table.addCell(log.get("Date"));
-                        table.addCell(log.get("Amount"));
-                        table.addCell(log.get("PaymentMethod"));
-                        table.addCell(log.get("Balance"));
-                        table.addCell(log.get("TransactionID"));
+                        table.addCell(new Phrase(log.get("Date"),recordFont));
+                        table.addCell(new Phrase(log.get("Amount"),recordFont));
+                        table.addCell(new Phrase(log.get("PaymentMethod"),recordFont));
+                        table.addCell(new Phrase(log.get("Balance"),recordFont));
+                        table.addCell(new Phrase(log.get("TransactionID"),recordFont));
                     }
 
                     document.add(table); // Add table to document
@@ -281,32 +283,35 @@ public class GeneratePDF extends HttpServlet {
                 
                 pageCount++;
                                 
-                document.close();                               
+                document.close();    
             }else if(action.equals("loginViewStudent")){
                 String fileName = "LOGINREPORT_" + timestamp + ".pdf";
 //                response.setHeader("Content-Disposition","attachment; filename=\"" + fileName + "\"");
-                Font detailFont = FontFactory.getFont(FontFactory.HELVETICA,16, Font.NORMAL);
+                Font detailFont = FontFactory.getFont(FontFactory.HELVETICA,45, Font.NORMAL);
+                Font titleFont = FontFactory.getFont(FontFactory.HELVETICA,50,Font.BOLDITALIC);
                 String userID = request.getParameter("USER_ID");
                 String username = request.getParameter("username");
                 String role = request.getParameter("role");
                 
-                //Title
-                Font titleFont = FontFactory.getFont(FontFactory.HELVETICA,22,Font.BOLDITALIC);
-                Paragraph title = new Paragraph("Login Report",titleFont);
-                title.setAlignment(Element.ALIGN_CENTER);
-                document.add(title);                              
-                       
-                //add a line break for better formatting
                 document.add(new Paragraph("\n"));
+                document.add(new Paragraph("\n"));
+                document.add(new Paragraph("\n"));
+                document.add(new Paragraph("\n"));                            
                 
                 //add username, userID, and role to the document
-                
+                Paragraph titlePara = new Paragraph("Login Report",titleFont);
+                titlePara.setSpacingAfter(20);
+                titlePara.setAlignment(Element.ALIGN_CENTER);
                 Paragraph usernamePara = new Paragraph("Username: " + username, detailFont);
                 usernamePara.setAlignment(Element.ALIGN_CENTER); // Center align Username
+                usernamePara.setSpacingAfter(20);
                 Paragraph userIDPara = new Paragraph("User ID: " + userID, detailFont);
                 userIDPara.setAlignment(Element.ALIGN_CENTER); // Center align User ID
+                userIDPara.setSpacingAfter(20);
                 Paragraph rolePara = new Paragraph("Role: " + role, detailFont);
-                rolePara.setAlignment(Element.ALIGN_CENTER); // Center align Role               
+                rolePara.setAlignment(Element.ALIGN_CENTER); // Center align Role   
+                rolePara.setSpacingAfter(20);
+                document.add(titlePara);
                 document.add(usernamePara);
                 document.add(userIDPara);
                 document.add(rolePara);

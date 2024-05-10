@@ -10,11 +10,16 @@
             <title>ENROLLMENT LOGS</title>
             <style>
                 .scrollable-table {
-                width: 100%;
-                max-height: 400px;
-                overflow-y: auto;
-                -ms-overflow-style: -ms-autohiding-scrollbar;
-            }
+                    width: 45%;
+                    max-height: 600px;
+                    overflow-y: auto;
+                    -ms-overflow-style: -ms-autohiding-scrollbar;
+                    margin: 0 auto;
+                }
+                /* Add this rule */
+                .scrollable-table td {
+                    padding: 0 30px; /* Adjust the values as needed */
+                }
             </style>
         </head>
         <header>
