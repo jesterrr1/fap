@@ -28,6 +28,7 @@
         <h1><% out.print(getServletContext().getInitParameter("contextHeader5"));%></h1>
     </header>
     <body>
+<!--        final-->
         <div class="success-container">
             <div class="header-container">
                 <h1>Welcome, <span id="user-customized">Student <%=session.getAttribute("USER_ID")%></span></h1>

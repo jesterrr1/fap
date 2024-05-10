@@ -13,6 +13,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Header;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
@@ -23,10 +24,19 @@ import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpSession;
 
 
 public class GeneratePDF extends HttpServlet {
+    
+    private String pdfHeader;
+    
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        pdfHeader = config.getServletContext().getInitParameter("pdfHeader");
+    }
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -47,12 +57,15 @@ public class GeneratePDF extends HttpServlet {
         
         String date = now.format(dateFormatter);
         String time = now.format(timeFormatter);
-                
+        
+        int pageCount = 1; // Initialize page count
         Document document = new Document(PageSize.A4.rotate()); //Create new document in landscape form
         try{
             PdfWriter writer = PdfWriter.getInstance(document, response.getOutputStream()); //Initialize PDF writer
-            writer.setPageEvent(new Footer(loggedInUsername));
-            
+            //writer.setPageEvent(new Footer(loggedInUsername, 1, pageCount)); // Initialize Footer with pagination information
+            writer.setPageEvent(new Header(pdfHeader));               
+            writer.setPageEvent(new Footer(loggedInUsername, 1, pageCount, date, time));
+           
             document.open(); //Open the document
 
                              
@@ -84,6 +97,8 @@ public class GeneratePDF extends HttpServlet {
                 document.add(usernamePara);
                 document.add(userIDPara);
                 document.add(rolePara); 
+                
+                pageCount++;
                   
                 document.close();
             } else if (action.equals("adminLoginMultiplePDF")) {               
@@ -104,20 +119,22 @@ public class GeneratePDF extends HttpServlet {
                 table.addCell("Username");
                 table.addCell("Role");
                 
-                List<Map<String, String>> loginRecords = (List<Map<String, String>>) request.getSession().getAttribute("loginRecords");
-                for (Map<String, String> record : loginRecords) {
-                    String username = record.get("username");
-                    String role = record.get("role");                    
-                    //Check if the username matches the logged-in username
-                    if(loggedInUsername != null && loggedInUsername.equals(username)){
-                        //Append asterisk(*) to the username
-                        username += "*";
+                List<Map<String, String>> loginRecords = (List<Map<String, String>>) request.getSession().getAttribute("loginRecords");                               
+                    for (Map<String, String> record : loginRecords) {
+                        String username = record.get("username");
+                        String role = record.get("role");                    
+                        //Check if the username matches the logged-in username
+                        if(loggedInUsername != null && loggedInUsername.equals(username)){
+                            //Append asterisk(*) to the username
+                            username += "*";
+                        }
+                        table.addCell(username);
+                        table.addCell(role);
                     }
-                    table.addCell(record.get(username));
-                    table.addCell(record.get(role));
-                }
                 document.add(table);                
 
+                pageCount++;
+                
                 document.close();
             } else if (action.equals("adminExpenseSinglePDF")) {
                 String fileName = "ENROLLMENTLOGREPORT_" + timestamp + ".pdf";
@@ -167,11 +184,13 @@ public class GeneratePDF extends HttpServlet {
 
                     document.add(table); // Add table to document
                 }
+                
+                pageCount++;
                                
                 document.close();
             } else if (action.equals("adminExpenseMultiplePDF")) {
                 String fileName = "ENROLLMENTLOGREPORT_" + timestamp + ".pdf";
-                response.setHeader("Content-Disposition","attachment; filename=\"" + fileName + "\""); //Download
+                //response.setHeader("Content-Disposition","attachment; filename=\"" + fileName + "\""); //Download
                 Font detailFont = FontFactory.getFont(FontFactory.HELVETICA,16, Font.NORMAL);
                                                 
                 //Title
@@ -203,6 +222,8 @@ public class GeneratePDF extends HttpServlet {
                 }
 
                 document.add(table);                
+                
+                pageCount++;
                 
                 document.close();
             } else if (action.equals("expenseViewStudent")) {
@@ -254,6 +275,8 @@ public class GeneratePDF extends HttpServlet {
 
                     document.add(table); // Add table to document
                 }
+                
+                pageCount++;
                                 
                 document.close();                               
             }else if(action.equals("loginViewStudent")){
@@ -286,6 +309,8 @@ public class GeneratePDF extends HttpServlet {
                 document.add(rolePara);
             }
             
+            pageCount++;
+            
             document.close(); //close the document
         }catch(DocumentException e){
             e.printStackTrace();
@@ -308,27 +333,67 @@ public class GeneratePDF extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }
-    
+       
     class Footer extends PdfPageEventHelper {
         String loggedInUsername;
+        int currentPage;
+        int totalPages;
+        String date;
+        String time;
 
-        Footer(String loggedInUsername) {
+        Footer(String loggedInUsername, int currentPage, int totalPages, String date, String time) {
             this.loggedInUsername = loggedInUsername;
+            this.currentPage = currentPage;
+            this.totalPages = totalPages;
+            this.date = date;
+            this.time = time;
         }
 
         public void onEndPage(PdfWriter writer, Document document) {
-            PdfPTable footer = new PdfPTable(1);
+            PdfPTable footer = new PdfPTable(3); // Updated to include space for date and time
             footer.setWidthPercentage(100);
             footer.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 
-            PdfPCell cell = new PdfPCell(new Phrase(loggedInUsername, FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 12)));
-            cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-            cell.setBorder(Rectangle.NO_BORDER);
-            footer.addCell(cell);
+            PdfPCell userCell = new PdfPCell(new Phrase(loggedInUsername, FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 12)));
+            userCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            userCell.setBorder(Rectangle.NO_BORDER);
+            footer.addCell(userCell);
+
+            PdfPCell dateTimeCell = new PdfPCell(new Phrase("Date: " + date + "  Time: " + time, FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 12)));
+            dateTimeCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            dateTimeCell.setBorder(Rectangle.NO_BORDER);
+            footer.addCell(dateTimeCell);
+
+            PdfPCell pageCell = new PdfPCell(new Phrase("Page " + currentPage + " of " + totalPages, FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 12)));
+            pageCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            pageCell.setBorder(Rectangle.NO_BORDER);
+            footer.addCell(pageCell);
 
             footer.setTotalWidth(document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin());
             footer.writeSelectedRows(0, -1, document.leftMargin(), document.bottomMargin(), writer.getDirectContent());
         }
     }
+
+
+    class Header extends PdfPageEventHelper {
+
+        private String pdfHeader;
+
+        public Header(String pdfHeader) {
+            this.pdfHeader = pdfHeader;
+        }
+
+        public void onEndPage(PdfWriter writer, Document document) {
+            PdfPTable header = new PdfPTable(1);
+            header.setTotalWidth(document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin());
+            PdfPCell headerCell = new PdfPCell(new Phrase(pdfHeader, FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 9, Font.BOLD)));
+            headerCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            headerCell.setBorder(Rectangle.NO_BORDER);
+            header.addCell(headerCell);
+            header.writeSelectedRows(0, -1, document.leftMargin(), document.top() + 10, writer.getDirectContent());
+        }
+    }
+
+
              
 }
