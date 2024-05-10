@@ -10,14 +10,26 @@
         <h1><% out.print(getServletContext().getInitParameter("contextHeader8"));%></h1>
     </header>
     <body>
-        <h1>Enter a Username</h1>
-        <form action="ViewRecords" method="get">
-            <input type="hidden" name="action" value="searchLogin">
-            <label for="username">Username:</label><br>
-            <input type="text" id="username" name="username"><br>
-            <input type="submit" value="Search">
-        </form>
-        <button onclick="window.location.href='success.jsp'">Back to Admin Log</button>
+        <div class="singlesearch-container">
+            <div class="header-container">
+                <h1><span id="user-customized">Enter a Username</span></h1>
+            </div>
+            <div class="search-box">
+                <form action="ViewRecords" method="get">
+                    <div class="input-container">
+                        <input type="hidden" name="action" value="searchLogin">
+                        <label for="username">Username:</label><br>
+                        <input type="text" id="username" name="username" required><br>
+                    </div>
+            </div>
+                    <div class="input-container">
+                        <input type="submit" value="Search" class="btn">
+                    </div>
+                 </form>
+                <div class="input-container">
+                    <button onclick="window.location.href='success.jsp'" class="btn">Back to Admin Log</button>  
+                </div>
+        </div>
     </body>
     <footer>
         <% out.print(getServletContext().getInitParameter("contextFooter1"));%>
